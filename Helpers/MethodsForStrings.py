@@ -105,3 +105,32 @@ class MethodsForStrings:
             feed.append(chars[index:index+1])
 
         return ''.join(feed)
+
+    @classmethod
+    def alignString(cls, s: str, requiredLength: int, alignment: str = 'left', patternSymbol: str = ' ') -> str:
+        strLen = len(s)
+
+        if strLen == requiredLength:
+            return s
+
+        if strLen > requiredLength:
+            return s[0:requiredLength]
+
+        import math
+
+        indentLength = math.floor((requiredLength - strLen) / 2) if alignment == 'center' else requiredLength - strLen
+
+        indentFeed = []
+        for i in range(0, indentLength):
+            indentFeed.append(patternSymbol)
+        indent = ''.join(indentFeed)
+
+        match alignment:
+            case 'center':
+                return indent + s + indent if indentLength * 2 == requiredLength else indent + s + indent + patternSymbol
+            case 'left':
+                return s + indent
+            case 'right':
+                return indent + s
+            case _:
+                return s

@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 
+from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
 
 class MethodsForDateTime:
     @classmethod
@@ -12,7 +13,7 @@ class MethodsForDateTime:
         return round(datetime.now(timezone.utc).timestamp(), 3)
 
     @classmethod
-    def getCurrentTimestampMCS(cls) -> float:
+    def getCurrentTimestampMcS(cls) -> float:
         return datetime.now(timezone.utc).timestamp()
 
     @classmethod
@@ -23,7 +24,8 @@ class MethodsForDateTime:
     def getCurrentTimestampStrMS(cls) -> str:
         dt = datetime.now(timezone.utc)
         milliseconds = round(dt.microsecond / 1000)
-        return dt.strftime('%Y-%m-%d %H:%M:%S') + '.' + str(milliseconds)
+        dtStr = dt.strftime('%Y-%m-%d %H:%M:%S') + '.' + str(milliseconds)
+        return MethodsForStrings.alignString(dtStr, 23, 'left', '0')
 
     @classmethod
     def utcTimestampToStr(cls, timestamp: float | int):
@@ -34,4 +36,5 @@ class MethodsForDateTime:
     def utcTimestampToStrMS(cls, timestamp: float | int):
         dt = datetime.fromtimestamp(timestamp / 1000, timezone.utc)
         milliseconds = round(dt.microsecond / 1000)
-        return dt.strftime('%Y-%m-%d %H:%M:%S') + '.' + str(milliseconds)
+        dtStr = dt.strftime('%Y-%m-%d %H:%M:%S') + '.' + str(milliseconds)
+        return MethodsForStrings.alignString(dtStr, 23, 'left', '0')

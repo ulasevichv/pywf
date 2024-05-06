@@ -1,29 +1,11 @@
 from os import sep
-from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class Log:
     LEVEL_INFO = 0
     LEVEL_WARNING = 1
     LEVEL_ERROR = 2
-
-    @classmethod
-    def writeToFile(cls, fileRelativePath, value):
-        if not isinstance(value, str):
-            value = str(value)
-
-        from App.App import App
-        rootAppPath = Path(App.rootPath)
-        # from vendor.pywf.Application.BaseWebApplication import BaseWebApplication
-        # rootAppPath = Path(BaseWebApplication.app.rootPath)
-        filePath = rootAppPath.joinpath(fileRelativePath)
-
-        Path(sep.join(str(filePath).split(sep)[:-1])).mkdir(parents=True, exist_ok=True)
-
-        f = open(filePath, 'a')
-        f.write(value + "\n\n")
-        f.close()
 
     @classmethod
     def logEnv(cls, env):
@@ -47,15 +29,17 @@ class Log:
                 raise Exception(Lang.msg('GENERAL.INVALID_ENUM_VALUE', level))
 
     @classmethod
-    def log(cls, value, level=LEVEL_INFO):
-        if not isinstance(value, str):
-            value = str(value)
+    def log(cls, data, level=LEVEL_INFO):
+        if not isinstance(data, str):
+            data = str(data)
 
-        logFileName = 'log-' + datetime.utcnow().strftime('%Y-%m-%d') + '.log'
+        logFileName = 'log-' + datetime.now(timezone.utc).strftime('%Y-%m-%d') + '.log'
         logFileRelativePath = sep.join(['storage', 'logs', logFileName])
-        value = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S') + ' [' + cls.levelToStr(level).upper() + ']: ' + value
+        data = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S') + ' [' + cls.levelToStr(level).upper() + ']: ' + data + "\n"
 
-        cls.writeToFile(logFileRelativePath, value)
+        from vendor.pywf.Helpers.MethodsForFileSystem import MethodsForFileSystem
+
+        MethodsForFileSystem.writeToFile(logFileRelativePath, data)
 
     @classmethod
     def info(cls, value):

@@ -1,9 +1,50 @@
+from os import sep
+from pathlib import Path
 import re
+
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
 
 
 class MethodsForFileSystem:
+    @classmethod
+    def relativePathToFull(cls, fileRelativePath: str):
+        # from vendor.pywf.Application.BaseWebApplication import BaseWebApplication
+        # rootAppPath = Path(BaseWebApplication.app.rootPath)
+
+        from App.App import App
+
+        rootAppPath = Path(App.rootPath)
+        fullFilePath = rootAppPath.joinpath(fileRelativePath)
+
+        return fullFilePath
+
+    @classmethod
+    def writeToFile(cls, fileRelativePath: str, data, mode: str = 'a'):
+        if not isinstance(data, str):
+            data = str(data)
+
+        fullFilePath = cls.relativePathToFull(fileRelativePath)
+
+        Path(sep.join(str(fullFilePath).split(sep)[:-1])).mkdir(parents=True, exist_ok=True)
+
+        f = open(fullFilePath, mode)
+        f.write(data + "\n")
+        f.close()
+
+    @classmethod
+    def readFile(cls, fileRelativePath: str):
+        fullFilePath = cls.relativePathToFull(fileRelativePath)
+
+        f = open(fullFilePath, 'r')
+        lines = f.readlines()
+        f.close()
+
+        for i, line in enumerate(lines):
+            lines[i] = line.rstrip()
+
+        return lines
+
     @classmethod
     def readEnvFile(cls, filePath, conversionRules: Dict):
         f = open(filePath, 'r')
