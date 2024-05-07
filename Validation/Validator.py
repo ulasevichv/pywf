@@ -36,7 +36,7 @@ class Validator:
 
                 if 'required' in allParamRules and (paramValue is None or paramValue == '' or paramValue == []):
                     raise ValidationException(Dict({
-                        alteredParamName: Lang.msg('VALIDATION.PARAMETER_REQUIRED', alteredParamName)
+                        alteredParamName: Lang.msg('VALIDATION.REQUIRED', alteredParamName)
                     }))
 
                 if 'sometimes' in allParamRules and paramValue is None:
@@ -58,6 +58,20 @@ class Validator:
                             case ('sometimes' | 'required' | 'nullable'):
                                 pass
 
+                            # Presence validators.
+
+                            case 'forbidden_with':
+                                from vendor.pywf.Validation.Rules.ForbiddenWith import ForbiddenWith
+                                paramValue = ForbiddenWith.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules, *ruleAttributes)
+                            case 'required_without':
+                                from vendor.pywf.Validation.Rules.RequiredWithout import RequiredWithout
+                                paramValue = RequiredWithout.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules, *ruleAttributes)
+                            case 'required_mutual_exclude':
+                                from vendor.pywf.Validation.Rules.RequiredMutualExclude import RequiredMutualExclude
+                                paramValue = RequiredMutualExclude.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules, *ruleAttributes)
+
+                            # Type validators.
+
                             case 'array':
                                 from vendor.pywf.Validation.Rules.Array import Array
                                 paramValue = Array.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules)
@@ -70,15 +84,15 @@ class Validator:
                             case 'email':
                                 from vendor.pywf.Validation.Rules.Email import Email
                                 paramValue = Email.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules)
+                            case 'enum':
+                                from vendor.pywf.Validation.Rules.Enum import Enum
+                                paramValue = Enum.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules, *ruleAttributes)
                             case 'int':
                                 from vendor.pywf.Validation.Rules.Integer import Integer
                                 paramValue = Integer.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules)
-                            case 'max':
-                                from vendor.pywf.Validation.Rules.Max import Max
-                                paramValue = Max.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules, *ruleAttributes)
-                            case 'min':
-                                from vendor.pywf.Validation.Rules.Min import Min
-                                paramValue = Min.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules, *ruleAttributes)
+                            case 'numeric':
+                                from vendor.pywf.Validation.Rules.Numeric import Numeric
+                                paramValue = Numeric.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules)
                             case 'object':
                                 from vendor.pywf.Validation.Rules.Object import Object
                                 paramValue = Object.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules)
@@ -88,12 +102,25 @@ class Validator:
                             case 'string':
                                 from vendor.pywf.Validation.Rules.String import String
                                 paramValue = String.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules)
+
+                            # Limit validators.
+
+                            case 'max':
+                                from vendor.pywf.Validation.Rules.Max import Max
+                                paramValue = Max.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules, *ruleAttributes)
+                            case 'min':
+                                from vendor.pywf.Validation.Rules.Min import Min
+                                paramValue = Min.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules, *ruleAttributes)
+
+                            # Unique validators.
+
                             case 'unique':
                                 from vendor.pywf.Validation.Rules.Unique import Unique
                                 paramValue = Unique.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules, *ruleAttributes)
                             case 'unique_except':
                                 from vendor.pywf.Validation.Rules.UniqueExcept import UniqueExcept
                                 paramValue = UniqueExcept.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules, *ruleAttributes)
+
                             case _:
                                 raise Exception(Lang.msg('VALIDATION.INVALID_RULE_NAME', ruleName))
                     else:

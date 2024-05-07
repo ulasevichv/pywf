@@ -1,4 +1,5 @@
 from vendor.pywf.Helpers.Dict import Dict
+from vendor.pywf.Helpers.Log import Log
 from vendor.pywf.Helpers.MethodsForMath import MethodsForMath
 from vendor.pywf.Language.Lang import Lang
 from vendor.pywf.Validation.Exceptions.Http.ValidationException import ValidationException
@@ -17,19 +18,19 @@ class Min(BaseRule):
             allParamRules = []
 
         paramValue = data.get(paramName)
-        minValue = int(ruleAttributes[0])
+        minValue = float(ruleAttributes[0])
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         if isinstance(paramValue, str) and cls.isStrByRules(allParamRules):
             if len(paramValue) < minValue:
                 raise ValidationException(Dict({
-                    alteredParamName: Lang.msg('VALIDATION.MIN_STR', alteredParamName, minValue)
+                    alteredParamName: Lang.msg('VALIDATION.MIN.STR', alteredParamName, minValue)
                 }))
         elif MethodsForMath.isNumeric(paramValue):
             paramValue = MethodsForMath.toNumeric(paramValue)
             if paramValue < minValue:
                 raise ValidationException(Dict({
-                    alteredParamName: Lang.msg('VALIDATION.MIN_NUMERIC', alteredParamName, minValue)
+                    alteredParamName: Lang.msg('VALIDATION.MIN.NUMERIC', alteredParamName, minValue)
                 }))
 
         return paramValue

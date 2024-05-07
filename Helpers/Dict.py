@@ -33,3 +33,6 @@ class Dict(dict):
         for attributeName in self.keys():
             feed.append(attributeName + ': ' + str(self.__getattr__(attributeName)))
         return '<Dict>:' + "\n\t" + "\n\t".join(feed)
+
+    def removeNoneValues(self):
+        return Dict({k: v for k, v in self.items() if v is not None})

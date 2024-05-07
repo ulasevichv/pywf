@@ -46,22 +46,28 @@ class BaseEN:
             'VALIDATION.INVALID_FIELD_NAME': 'Invalid field name for validation rule: %s',
             'VALIDATION.INVALID_FILTER_NAME': 'Invalid filter name: %s',
             'VALIDATION.FAILURE': 'Validation failure',
-            'VALIDATION.PARAMETER_REQUIRED': 'Parameter `%s` is required',
+
+            'VALIDATION.FORBIDDEN_WITH': 'Parameter `%s` is forbidden when any of the following parameters is present: %s',
+            'VALIDATION.REQUIRED': 'Parameter `%s` is required',
+            'VALIDATION.REQUIRED_WITHOUT': 'Parameter `%s` is required when none of the following parameters is present: %s',
 
             'VALIDATION.ARRAY': 'Parameter `%s` must be an array',
             'VALIDATION.DATE': 'Parameter `%s` must be a valid date in format YYYY-MM-DD',
             'VALIDATION.DATE_RANGE.FORMAT': 'Parameter `%s` must be a valid date range in format YYYY-MM-DD / YYYY-MM-DD',
             'VALIDATION.DATE_RANGE.START_GREATER_THAN_END': 'Parameter `%s` is invalid: start date must be less or equal to end date',
             'VALIDATION.EMAIL': 'Parameter `%s` must be a valid email address',
-            'VALIDATION.PHONE': 'Parameter `%s` must be a valid phone (7-24 symbols, including only numbers, + and -)',
+            'VALIDATION.ENUM': 'Parameter `%s` must belong to enumeration %s',
             'VALIDATION.INTEGER': 'Parameter `%s` must be an integer',
+            'VALIDATION.NUMERIC': 'Parameter `%s` must be numeric',
             'VALIDATION.OBJECT': 'Parameter `%s` must be an object',
+            'VALIDATION.PHONE': 'Parameter `%s` must be a valid phone (7-24 symbols, including only numbers, + and -)',
             'VALIDATION.STRING': 'Parameter `%s` must be a string',
 
-            'VALIDATION.MAX_NUMERIC': 'Parameter `%s` must be <= %d',
-            'VALIDATION.MAX_STR': 'Parameter `%s` must not contain more than %d symbols',
-            'VALIDATION.MIN_NUMERIC': 'Parameter `%s` must be >= %d',
-            'VALIDATION.MIN_STR': 'Parameter `%s` must contain at least %d symbols',
+            'VALIDATION.MAX.NUMERIC': 'Parameter `%s` must be <= %f',
+            'VALIDATION.MAX.STR': 'Parameter `%s` must not contain more than %d symbols',
+            'VALIDATION.MIN.NUMERIC': 'Parameter `%s` must be >= %f',
+            'VALIDATION.MIN.STR': 'Parameter `%s` must contain at least %d symbols',
+
             'VALIDATION.UNIQUE': '%s \'%s\' is already taken',
 
             # ==================================================
