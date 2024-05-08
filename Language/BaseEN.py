@@ -52,6 +52,7 @@ class BaseEN:
             'VALIDATION.REQUIRED_WITHOUT': 'Parameter `%s` is required when none of the following parameters is present: %s',
 
             'VALIDATION.ARRAY': 'Parameter `%s` must be an array',
+            'VALIDATION.BOOLEAN': 'Parameter `%s` must be boolean',
             'VALIDATION.DATE': 'Parameter `%s` must be a valid date in format YYYY-MM-DD',
             'VALIDATION.DATE_RANGE.FORMAT': 'Parameter `%s` must be a valid date range in format YYYY-MM-DD / YYYY-MM-DD',
             'VALIDATION.DATE_RANGE.START_GREATER_THAN_END': 'Parameter `%s` is invalid: start date must be less or equal to end date',

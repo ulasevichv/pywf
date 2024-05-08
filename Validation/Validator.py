@@ -75,6 +75,9 @@ class Validator:
                             case 'array':
                                 from vendor.pywf.Validation.Rules.Array import Array
                                 paramValue = Array.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules)
+                            case 'bool':
+                                from vendor.pywf.Validation.Rules.Boolean import Boolean
+                                paramValue = Boolean.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules)
                             case 'date':
                                 from vendor.pywf.Validation.Rules.Date import Date
                                 paramValue = Date.validate(self.data, paramName, self.errorMessagesPrefix, allParamRules)
