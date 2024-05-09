@@ -12,9 +12,9 @@ class MethodsForFileSystem:
         # from vendor.pywf.Application.BaseWebApplication import BaseWebApplication
         # rootAppPath = Path(BaseWebApplication.app.rootPath)
 
-        from App.App import App
+        from App.Kernel import Kernel
 
-        rootAppPath = Path(App.rootPath)
+        rootAppPath = Path(Kernel.getApp().rootPath)
         fullFilePath = rootAppPath.joinpath(fileRelativePath)
 
         return fullFilePath

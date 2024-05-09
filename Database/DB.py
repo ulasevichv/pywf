@@ -1,4 +1,4 @@
-from App.App import App
+from App.Kernel import Kernel
 from vendor.pywf.Helpers.APIHelper import APIHelper
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
@@ -14,13 +14,15 @@ class DB:
         import mysql.connector
 
         if cls._connection is None:
-            cls.whetherToLogSQL = App.localEnv.get('APP_DEBUG_LOG_SQL')
+            app = Kernel.getApp()
+
+            cls.whetherToLogSQL = app.envFile.get('APP_DEBUG_LOG_SQL')
 
             cls._connection = mysql.connector.connect(
-                host=App.localEnv.get('DB_HOST'),
-                user=App.localEnv.get('DB_USERNAME'),
-                password=App.localEnv.get('DB_PASSWORD'),
-                database=App.localEnv.get('DB_DATABASE'),
+                host=app.envFile.get('DB_HOST'),
+                user=app.envFile.get('DB_USERNAME'),
+                password=app.envFile.get('DB_PASSWORD'),
+                database=app.envFile.get('DB_DATABASE'),
             )
 
         return cls._connection
@@ -32,7 +34,7 @@ class DB:
 
     @classmethod
     def whetherToEscapeFieldNames(cls):
-        return not App.localEnv.get('APP_DEBUG')
+        return not Kernel.getApp().envFile.get('APP_DEBUG')
 
     @classmethod
     def raw(cls, value):

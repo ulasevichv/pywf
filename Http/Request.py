@@ -1,6 +1,7 @@
 import json
 from json import JSONDecodeError
 import re
+
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
 from vendor.pywf.Validation.Exceptions.Http.ValidationException import ValidationException
@@ -8,11 +9,13 @@ from vendor.pywf.Validation.Exceptions.Http.ValidationException import Validatio
 
 class Request(Dict):
     def __init__(self):
-        from App.App import App
+        from App.Kernel import Kernel
 
-        self.headers = Request.collectHeaders(App.env)
-        self.method = App.env.REQUEST_METHOD
-        self.URI = App.env.REQUEST_URI
+        app = Kernel.getApp()
+
+        self.headers = Request.collectHeaders(app.osEnv)
+        self.method = Kernel.getApp().osEnv.REQUEST_METHOD
+        self.URI = Kernel.getApp().osEnv.REQUEST_URI
         self.urlParams = []
         self.body = Dict()
 
@@ -104,15 +107,16 @@ class Request(Dict):
         return self.headers[name]
 
     def collectUrlParams(self, matchingRoutePath, queryPath):
-        from App.App import App
+        from App.Kernel import Kernel
+        app = Kernel.getApp()
 
-        expectedParameterNames = re.findall('{' + App.getUrlParameterRegExStr() + '}', matchingRoutePath)
+        expectedParameterNames = re.findall('{' + app.getUrlParameterRegExStr() + '}', matchingRoutePath)
 
         if len(expectedParameterNames) == 0:
             self.urlParams = []
             return
 
-        values = re.findall(App.getRouteRegExStr(matchingRoutePath), queryPath)
+        values = re.findall(app.getRouteRegExStr(matchingRoutePath), queryPath)
         if len(values) == 0:
             self.urlParams = []
             return
@@ -129,9 +133,10 @@ class Request(Dict):
         return self.headers['Content-Type'] if 'Content-Type' in self.headers.keys() else None
 
     def processBody(self):
-        from App.App import App
+        from App.Kernel import Kernel
+        app = Kernel.getApp()
 
-        rawBody = App.env['wsgi.input'].read()
+        rawBody = app.osEnv['wsgi.input'].read()
 
         if len(rawBody) != 0:
             try:

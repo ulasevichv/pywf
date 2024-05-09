@@ -1,4 +1,4 @@
-from App.App import App
+from App.Kernel import Kernel
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
 from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
@@ -14,11 +14,14 @@ class Redis:
     def getConnection(cls):
         if cls._connection is None:
             import redis
+
+            app = Kernel.getApp()
+
             cls._connection = redis.Redis(
-                host=App.localEnv.get('REDIS_HOST'),
-                port=App.localEnv.get('REDIS_PORT'),
-                db=App.localEnv.get('REDIS_DATABASE'),
-                password=App.localEnv.get('REDIS_PASSWORD'),
+                host=app.envFile.get('REDIS_HOST'),
+                port=app.envFile.get('REDIS_PORT'),
+                db=app.envFile.get('REDIS_DATABASE'),
+                password=app.envFile.get('REDIS_PASSWORD'),
                 decode_responses=True)
         return cls._connection
 
@@ -40,13 +43,13 @@ class Redis:
     @classmethod
     def _getTokenKeyPrefix(cls):
         if cls._tokenKeyPrefix is None:
-            cls._tokenKeyPrefix = App.localEnv.get('REDIS_USER_TOKEN_PREFIX') + ':token:'
+            cls._tokenKeyPrefix = Kernel.getApp().envFile.get('REDIS_USER_TOKEN_PREFIX') + ':token:'
         return cls._tokenKeyPrefix
 
     @classmethod
     def _getTokenDuration(cls):
         if cls._tokenDuration is None:
-            cls._tokenDuration = int(App.localEnv.get('REDIS_USER_TOKEN_DURATION'))
+            cls._tokenDuration = int(Kernel.getApp().envFile.get('REDIS_USER_TOKEN_DURATION'))
         return cls._tokenDuration
 
     @classmethod

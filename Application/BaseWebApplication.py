@@ -6,34 +6,43 @@ import re
 from typing import Self
 import urllib.parse
 
+from vendor.pywf.Application.BaseApplication import BaseApplication
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.MethodsForFileSystem import MethodsForFileSystem
 from vendor.pywf.Http.Request import Request
 from vendor.pywf.Validation.Exceptions.Http.NotFoundException import NotFoundException
 
 
-class BaseWebApplication:
+class BaseWebApplication(BaseApplication):
+    calledFromCLI = False
+
     app: Self | None = None
     routeGroups = []
     headersFlushed: bool = False
 
-    env: Dict = None
-    localEnv: Dict = None
-    rootPath: str = None
-    rootPath2: str = None
+    osEnv: Dict = None
+    envFile: Dict = None
+
     request: Request = None
 
     def __init__(self):
-        if type(self).app is not None:
-            raise Exception('Only one instance of application is allowed')
-        type(self).app = self
-        BaseWebApplication.app = self
+        super().__init__()
+        type(self).isConsoleApp = False
 
     def processRequest(self, env: dict, startResponse):
-        type(self).env = Dict(env)
-        type(self).rootPath = str(Path(self.env.DOCUMENT_ROOT + '/..').resolve()).replace("\\", '/')
-        type(self).rootPath2 = str(Path('/..').resolve()).replace("\\", '/')
-        type(self).localEnv = MethodsForFileSystem.readEnvFile(self.rootPath + '/' + '.env', self.getEnvFileConversionRules())
+        type(self).osEnv = Dict(env)
+        type(self).rootPath = str(Path(self.osEnv.DOCUMENT_ROOT + '/..').resolve()).replace("\\", '/')
+        # type(self).rootPath = str(Path('/..').resolve()).replace("\\", '/')
+        type(self).envFile = MethodsForFileSystem.readEnvFile(self.rootPath + '/' + '.env', self.getEnvFileConversionRules())
+
+        # return Dict({
+        #     'status': '200 OK',
+        #     'headers': [
+        #         ('Content-type', 'application/json'),
+        #     ],
+        #     'body': json.dumps(Dict({'debug': 'DEBUG'}))
+        # })
+
         type(self).request = Request()
 
         # Log.logEnv(self.env)

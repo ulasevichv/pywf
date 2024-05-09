@@ -1,4 +1,4 @@
-from App.App import App
+from App.Kernel import Kernel
 from vendor.pywf.Validation.Exceptions.Http.ValidationException import ValidationException
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Http.Request import Request
@@ -26,7 +26,7 @@ class APIHelper:
             allowedFilterNames.append(allowedFilter.paramName)
         for presentFilterName in list(presentFilters.keys()):
             if presentFilterName not in allowedFilterNames:
-                if App.localEnv.get('APP_DEBUG'):
+                if Kernel.getApp().envFile.get('APP_DEBUG'):
                     del presentFilters[presentFilterName]
                 else:
                     raise ValidationException(Dict({

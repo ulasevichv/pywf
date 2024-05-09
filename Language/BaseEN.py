@@ -70,19 +70,4 @@ class BaseEN:
             'VALIDATION.MIN.STR': 'Parameter `%s` must contain at least %d symbols',
 
             'VALIDATION.UNIQUE': '%s \'%s\' is already taken',
-
-            # ==================================================
-            # Entity-specific.
-            # ==================================================
-
-            # User.
-
-            'USER.EMAIL_NOT_FOUND': 'Email not found',
-            'USER.WRONG_PASSWORD': 'Wrong password',
-            'USER.USER_ROLE_ABSENT': 'User role is absent for user ID=%s',
-            'USER.NOT_FOUND': 'User ID=%s is not found',
-            'USER.EDIT.ACCESS_DENIED': cls.AD + 'only staff and user himself can edit user details',
-            'USER.DELETE.ACCESS_DENIED': cls.AD + 'only staff can delete users',
-            'USER.GET_ONE.ACCESS_DENIED': cls.AD + ': ' + 'only staff and user himself can get this information',
-            'USER.GET_LIST.ACCESS_DENIED': cls.AD + ': ' + 'only staff can get a list of users',
         })
