@@ -1,8 +1,11 @@
 from pathlib import Path
-import sys
 
 from vendor.pywf.Application.BaseApplication import BaseApplication
+from vendor.pywf.Console.BaseConsoleCommand import BaseConsoleCommand
+from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
+from vendor.pywf.Helpers.MethodsForFileSystem import MethodsForFileSystem
+from vendor.pywf.Language.Lang import Lang
 
 
 class BaseConsoleApplication(BaseApplication):
@@ -12,22 +15,32 @@ class BaseConsoleApplication(BaseApplication):
 
     def processRequest(self):
         type(self).rootPath = str(Path('').resolve()).replace("\\", '/')
+        type(self).envFile = MethodsForFileSystem.readEnvFile(self.rootPath + '/' + '.env', self.envFileConversionRules)
 
-        Log.info(sys.argv[1:])
+        self.readAllRoutes('Console/Routes')
 
-        # allRouteFilePaths = self.getAllRouteFilePaths()
-        # for filePath in allRouteFilePaths:
-        #     with open(filePath) as f:
-        #         exec(f.read())
+        allArguments = BaseConsoleCommand.getAllArguments()
 
-        # print(type(self).rootPath)
+        if len(allArguments) == 0:
+            BaseConsoleCommand.error(Lang.msg('CONSOLE.NO_COMMAND'))
+            return
 
-    # @classmethod
-    # def getAllRouteFilePaths(cls):
-    #     filePaths = []
-    #     for p in Path(cls.rootPath + '/Routes').rglob('*.py'):
-    #         if p.match(Path(__file__).name):
-    #             continue
-    #         filePath = str(p).replace("\\", '/')
-    #         filePaths.append(filePath)
-    #     return filePaths
+        commandName = allArguments[0]
+
+        matchingRoute = None
+        for routeGroup in self.routeGroups:
+            for route in routeGroup['routes']:
+                if self.whetherRouteMatchesQuery(route['uri'], commandName):
+                    matchingRoute = route
+                    break
+            if matchingRoute is not None:
+                break
+
+        if matchingRoute is None:
+            BaseConsoleCommand.error(Lang.msg('CONSOLE.INVALID_COMMAND_NAME', commandName))
+
+        matchingRoute['method']()
+
+    @classmethod
+    def whetherRouteMatchesQuery(cls, routeUri: str, commandName: str) -> bool:
+        return routeUri.lower() == commandName.lower()

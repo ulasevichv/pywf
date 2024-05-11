@@ -21,6 +21,15 @@ class BaseEN:
             'AUTH_TOKEN_MISSING': 'Authorization token is missing',
             'AUTH_TOKEN_EXPIRED': 'Authorization token has expired',
 
+            # Console.
+
+            'CONSOLE.ERROR': 'Error',
+            'CONSOLE.WARNING': 'Warning',
+            'CONSOLE.NO_COMMAND': 'No command specified. Use `py cli.py test/test` syntax',
+            'CONSOLE.INVALID_COMMAND_NAME': 'Specified command name is not recognized: `%s`',
+            'CONSOLE.INVALID_PARAMETER_SYNTAX': 'Invalid parameter syntax: `%s`',
+            'CONSOLE.OBLIGATORY_PARAMETER_MISSING': 'Obligatory parameter `%s` is missing',
+
             # DB.
 
             'DB.INVALID_FIELD_NAME': 'Invalid field name',
