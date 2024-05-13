@@ -45,3 +45,30 @@ class MethodsForMath:
             pass
 
         raise ValueError('Value cannot be converted to any numeric type')
+
+    @classmethod
+    def splitIntervalIntoGroups(cls, startIndex: int, endIndex: int, groupSize: int) -> list[list[int]]:
+        if endIndex <= startIndex or groupSize < 1:
+            raise ValueError('Invalid function parameters')
+
+        length = endIndex - startIndex + 1
+
+        if groupSize >= length:
+            return [[startIndex, endIndex]]
+
+        numGroups = length // groupSize
+        remainder = length % groupSize
+
+        if remainder != 0:
+            numGroups += 1
+
+        results = []
+        for i in range(numGroups):
+            groupStartIndex = startIndex + groupSize * i
+            groupEndIndex = groupStartIndex + groupSize - 1
+            if groupEndIndex > endIndex:
+                groupEndIndex = endIndex
+
+            results.append([groupStartIndex, groupEndIndex])
+
+        return results

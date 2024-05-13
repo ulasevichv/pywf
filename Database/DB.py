@@ -148,4 +148,4 @@ class DB:
         if type(tableClass.pk()) is not str:
             raise Exception(Lang.msg('DB.COMPOSITE_PK.NOT_SUPPORTED', tableClass.tn()))
 
-        return int(cls.query().execute('SELECT MAX(`' + tableClass.pk() + '`) FROM `' + tableClass.tn() + '`;')[0][0])
+        return int(cls.query().executeRawReading('SELECT MAX(`' + tableClass.pk() + '`) FROM `' + tableClass.tn() + '`;')[0][0])

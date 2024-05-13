@@ -23,7 +23,7 @@ class BaseConsoleCommand:
 
     @classmethod
     @abstractmethod
-    def execute(cls):
+    def execute(cls) -> None:
         pass
 
     @classmethod

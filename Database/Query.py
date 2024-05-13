@@ -173,54 +173,54 @@ class Query:
     ================================================== """
 
     def buildSql(self, addTrailingSemicolon=True):
-        lines = []
+        sqlFeed = []
 
         if len(self._selectFields) != 0:
-            lines.append('SELECT ' + ', '.join(self._selectFields))
-            lines.append('FROM ' + self._fromClause)
+            sqlFeed.append('SELECT ' + ', '.join(self._selectFields))
+            sqlFeed.append('FROM ' + self._fromClause)
 
             if len(self._whereConditions) != 0:
                 for i, condition in enumerate(self._whereConditions):
                     if i == 0:
-                        lines.append('WHERE ' + condition)
+                        sqlFeed.append('WHERE ' + condition)
                     else:
-                        lines.append("\t" + 'AND ' + condition)
+                        sqlFeed.append("\t" + 'AND ' + condition)
 
             if len(self._whereRawConditions) != 0:
                 if len(self._whereConditions) == 0:
                     for i, condition in enumerate(self._whereRawConditions):
                         if i == 0:
-                            lines.append('WHERE ' + condition)
+                            sqlFeed.append('WHERE ' + condition)
                         else:
-                            lines.append("\t" + 'AND ' + condition)
+                            sqlFeed.append("\t" + 'AND ' + condition)
                 else:
                     for i, condition in enumerate(self._whereRawConditions):
-                        lines.append("\t" + 'AND ' + condition)
+                        sqlFeed.append("\t" + 'AND ' + condition)
 
             if len(self._orWhereConditions) != 0:
                 if len(self._whereConditions) == 0:
                     for i, condition in enumerate(self._orWhereConditions):
                         if i == 0:
-                            lines.append('WHERE ' + condition)
+                            sqlFeed.append('WHERE ' + condition)
                         else:
-                            lines.append("\t" + 'OR ' + condition)
+                            sqlFeed.append("\t" + 'OR ' + condition)
                 else:
                     for i, condition in enumerate(self._orWhereConditions):
-                        lines.append("\t" + 'OR ' + condition)
+                        sqlFeed.append("\t" + 'OR ' + condition)
 
             if len(self._ordering) != 0:
-                lines.append('ORDER BY ' + ', '.join(self._ordering))
+                sqlFeed.append('ORDER BY ' + ', '.join(self._ordering))
 
             if self._limitClause is not None:
-                lines.append('LIMIT ' + str(self._limitClause))
+                sqlFeed.append('LIMIT ' + str(self._limitClause))
 
             if self._offsetClause is not None:
-                lines.append('OFFSET ' + str(self._offsetClause))
+                sqlFeed.append('OFFSET ' + str(self._offsetClause))
 
         if addTrailingSemicolon:
-            lines[-1] = lines[-1] + ';'
+            sqlFeed[-1] = sqlFeed[-1] + ';'
 
-        rawSql = "\n".join(lines)
+        rawSql = "\n".join(sqlFeed)
 
         if DB.whetherToLogSQL:
             Log.info(rawSql)
@@ -392,7 +392,7 @@ class Query:
         self._connection.commit()
         dbCursor.close()
 
-    def execute(self, rawSql: str):
+    def executeRawReading(self, rawSql: str):
         if DB.whetherToLogSQL:
             Log.info(rawSql)
 
@@ -402,3 +402,12 @@ class Query:
         dbCursor.close()
 
         return result
+
+    def executeRawWriting(self, rawSql: str) -> None:
+        if DB.whetherToLogSQL:
+            Log.info(rawSql)
+
+        dbCursor = self._connection.cursor()
+        dbCursor.execute(rawSql)
+        self._connection.commit()
+        dbCursor.close()

@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 
 from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
 
+
 class MethodsForDateTime:
     @classmethod
     def getCurrentTimestamp(cls) -> int:
@@ -28,12 +29,7 @@ class MethodsForDateTime:
         return MethodsForStrings.alignString(dtStr, 23, 'left', '0')
 
     @classmethod
-    def utcTimestampToStr(cls, timestamp: float | int):
-        dt = datetime.fromtimestamp(timestamp / 1000, timezone.utc)
-        return dt.strftime('%Y-%m-%d %H:%M:%S')
-
-    @classmethod
-    def utcTimestampToStrMS(cls, timestamp: float | int):
+    def utcTimestampMSToStrMS(cls, timestamp: float | int):
         dt = datetime.fromtimestamp(timestamp / 1000, timezone.utc)
         milliseconds = round(dt.microsecond / 1000)
         dtStr = dt.strftime('%Y-%m-%d %H:%M:%S') + '.' + str(milliseconds)
