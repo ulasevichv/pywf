@@ -1,4 +1,7 @@
+from redis import Redis as LibRedis
+
 from App.Kernel import Kernel
+
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
 from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
@@ -11,13 +14,11 @@ class Redis:
     _TOKEN_LENGTH: int = 16
 
     @classmethod
-    def getConnection(cls):
+    def getConnection(cls) -> LibRedis:
         if cls._connection is None:
-            import redis
-
             app = Kernel.getApp()
 
-            cls._connection = redis.Redis(
+            cls._connection = LibRedis(
                 host=app.envFile.get('REDIS_HOST'),
                 port=app.envFile.get('REDIS_PORT'),
                 db=app.envFile.get('REDIS_DATABASE'),
@@ -26,7 +27,7 @@ class Redis:
         return cls._connection
 
     @classmethod
-    def setVar(cls, name: str, value):
+    def setVar(cls, name: str, value) -> None:
         rds = cls.getConnection()
 
         if not isinstance(value, str):
@@ -35,29 +36,29 @@ class Redis:
         rds.set(name, value)
 
     @classmethod
-    def getVar(cls, name: str):
+    def getVar(cls, name: str) -> str:
         rds = cls.getConnection()
 
         return rds.get(name)
 
     @classmethod
-    def _getTokenKeyPrefix(cls):
+    def _getTokenKeyPrefix(cls) -> str:
         if cls._tokenKeyPrefix is None:
             cls._tokenKeyPrefix = Kernel.getApp().envFile.get('REDIS_USER_TOKEN_PREFIX') + ':token:'
         return cls._tokenKeyPrefix
 
     @classmethod
-    def _getTokenDuration(cls):
+    def _getTokenDuration(cls) -> int:
         if cls._tokenDuration is None:
             cls._tokenDuration = int(Kernel.getApp().envFile.get('REDIS_USER_TOKEN_DURATION'))
         return cls._tokenDuration
 
     @classmethod
-    def _generateAuthToken(cls):
+    def _generateAuthToken(cls) -> str:
         return MethodsForStrings.generateRandomString(cls._TOKEN_LENGTH, 'lower')
 
     @classmethod
-    def generateAndAddAuthToken(cls, userId: int):
+    def generateAndAddAuthToken(cls, userId: int) -> str:
         rds = cls.getConnection()
 
         token = cls._generateAuthToken()
@@ -68,7 +69,7 @@ class Redis:
         return token
 
     @classmethod
-    def authTokenToUserId(cls, token: str, prolongToken: bool = True):
+    def authTokenToUserId(cls, token: str, prolongToken: bool = True) -> int | None:
         rds = cls.getConnection()
 
         key = cls._getTokenKeyPrefix() + token
@@ -81,7 +82,7 @@ class Redis:
         return None if userId is None else int(userId)
 
     @classmethod
-    def getAllAuthTokensInfo(cls):
+    def getAllAuthTokensInfo(cls) -> list[Dict]:
         rds = cls.getConnection()
 
         allKeys = rds.keys(cls._getTokenKeyPrefix() + '*')
@@ -98,7 +99,7 @@ class Redis:
         return results
 
     @classmethod
-    def deleteAuthToken(cls, token: str):
+    def deleteAuthToken(cls, token: str) -> None:
         rds = cls.getConnection()
 
         key = cls._getTokenKeyPrefix() + token
@@ -106,7 +107,7 @@ class Redis:
         rds.delete(key)
 
     @classmethod
-    def deleteAllAuthTokens(cls):
+    def deleteAllAuthTokens(cls) -> int:
         rds = cls.getConnection()
 
         allKeys = rds.keys(cls._getTokenKeyPrefix() + '*')

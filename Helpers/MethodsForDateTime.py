@@ -4,32 +4,48 @@ from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
 
 
 class MethodsForDateTime:
+    # ==================================================
+    # Retrieving current UTC timestamp.
+    # ==================================================
+
     @classmethod
     def getCurrentTimestamp(cls) -> int:
         import math
         return math.floor(datetime.now(timezone.utc).timestamp())
 
     @classmethod
-    def getCurrentTimestampMS(cls) -> float:
-        return round(datetime.now(timezone.utc).timestamp(), 3)
-
-    @classmethod
-    def getCurrentTimestampMcS(cls) -> float:
-        return datetime.now(timezone.utc).timestamp()
-
-    @classmethod
     def getCurrentTimestampStr(cls) -> str:
         return datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
 
     @classmethod
-    def getCurrentTimestampStrMS(cls) -> str:
+    def getCurrentTimestampMilliSec(cls) -> float:
+        return round(datetime.now(timezone.utc).timestamp(), 3)
+
+    @classmethod
+    def getCurrentTimestampMilliSecStr(cls) -> str:
         dt = datetime.now(timezone.utc)
         milliseconds = round(dt.microsecond / 1000)
         dtStr = dt.strftime('%Y-%m-%d %H:%M:%S') + '.' + str(milliseconds)
         return MethodsForStrings.alignString(dtStr, 23, 'left', '0')
 
     @classmethod
-    def utcTimestampMSToStrMS(cls, timestamp: float | int):
+    def getCurrentTimestampMicroSec(cls) -> float:
+        return datetime.now(timezone.utc).timestamp()
+
+    @classmethod
+    def getCurrentTimestampMicroSecStr(cls) -> str:
+        dt = datetime.now(timezone.utc)
+        microsecond = dt.microsecond
+        dtStr = dt.strftime('%Y-%m-%d %H:%M:%S') + '.' + str(microsecond)
+        return MethodsForStrings.alignString(dtStr, 26, 'left', '0')
+
+    # ==================================================
+    # Reformatting timestamps.
+    # ==================================================
+
+    # Converting UTC timestamp in milliseconds into a DateTime-string with milliseconds.
+    @classmethod
+    def utcTimestampMilliSecToStr(cls, timestamp: float | int):
         dt = datetime.fromtimestamp(timestamp / 1000, timezone.utc)
         milliseconds = round(dt.microsecond / 1000)
         dtStr = dt.strftime('%Y-%m-%d %H:%M:%S') + '.' + str(milliseconds)
