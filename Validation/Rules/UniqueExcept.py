@@ -7,22 +7,20 @@ from vendor.pywf.Validation.Rules.BaseRule import BaseRule
 
 
 class UniqueExcept(BaseRule):
-    name = 'unique_except'
+    name: str = 'unique_except'
 
     @classmethod
-    def validate(cls, data, paramName, paramNamePrefix='', allParamRules=None, *ruleAttributes):
+    def validate(cls, data: Dict, paramName: str, paramNamePrefix: str = '', allParamRules: list = None, *ruleAttributes) -> None:
         if data.get(paramName) is None:
             return
 
-        if allParamRules is None:
-            allParamRules = []
-
         paramValue = data.get(paramName)
+        alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
+
         tableName = str(ruleAttributes[0])
         fieldName = str(ruleAttributes[1])
         exceptFieldName = str(ruleAttributes[2])
         exceptValue = str(ruleAttributes[3])
-        alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         query = (DB.query()
                  .select('COUNT(*) AS numRows')
@@ -36,5 +34,3 @@ class UniqueExcept(BaseRule):
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.UNIQUE', alteredParamName.title(), paramValue)
             }))
-
-        return paramValue

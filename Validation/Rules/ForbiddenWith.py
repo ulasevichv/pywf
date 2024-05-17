@@ -1,21 +1,19 @@
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
 from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Rules.BaseRule import BaseRule
 from vendor.pywf.Validation.Exceptions.Http.ValidationException import ValidationException
+from vendor.pywf.Validation.Rules.BaseRule import BaseRule
 
 
 class ForbiddenWith(BaseRule):
-    name = 'forbidden_with'
+    name: str = 'forbidden_with'
 
     @classmethod
-    def validate(cls, data, paramName, paramNamePrefix='', allParamRules=None, *ruleAttributes):
-        if allParamRules is None:
-            allParamRules = []
-
+    def validate(cls, data: Dict, paramName: str, paramNamePrefix: str = '', allParamRules: list = None, *ruleAttributes) -> None:
         paramValue = data.get(paramName)
-        relatedParamNames = list(ruleAttributes)
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
+
+        relatedParamNames = list(ruleAttributes)
 
         if data.get(paramName) is not None:
             anyOfRelatedParamsIsPresent = False
@@ -27,5 +25,3 @@ class ForbiddenWith(BaseRule):
                 raise ValidationException(Dict({
                     alteredParamName: Lang.msg('VALIDATION.FORBIDDEN_WITH', alteredParamName, ', '.join([f'`{relatedParamName}`' for relatedParamName in relatedParamNames]))
                 }))
-
-        return paramValue

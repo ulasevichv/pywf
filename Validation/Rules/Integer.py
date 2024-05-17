@@ -1,24 +1,40 @@
+from typing import Any
+
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
+from vendor.pywf.Helpers.MethodsForMath import MethodsForMath
 from vendor.pywf.Language.Lang import Lang
 from vendor.pywf.Validation.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Validation.Rules.BaseRule import BaseRule
+from vendor.pywf.Validation.Rules.BaseTypeRule import BaseTypeRule
 
 
-class Integer(BaseRule):
-    name = 'int'
+class Integer(BaseTypeRule):
+    name: str = 'int'
 
     @classmethod
-    def validate(cls, data, paramName, paramNamePrefix='', allParamRules=None, *ruleAttributes):
+    def validate(cls, data: Dict, paramName: str, paramNamePrefix: str = '', allParamRules: list = None, *ruleAttributes) -> int | None:
         if data.get(paramName) is None:
-            return
+            return None
 
         paramValue = data.get(paramName)
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         try:
-            return int(paramValue)
+            return cls.parse(paramValue)
         except (ValueError, TypeError):
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.INTEGER', alteredParamName)
             }))
+
+    @classmethod
+    def parse(cls, value: Any) -> int:
+        if isinstance(value, int):
+            return value
+
+        if isinstance(value, (float, complex)):
+            raise TypeError
+
+        try:
+            return int(value)
+        except ValueError:
+            raise ValueError

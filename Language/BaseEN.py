@@ -62,9 +62,10 @@ class BaseEN:
 
             'VALIDATION.ARRAY': 'Parameter `%s` must be an array',
             'VALIDATION.BOOLEAN': 'Parameter `%s` must be boolean',
-            'VALIDATION.DATE': 'Parameter `%s` must be a valid date in format YYYY-MM-DD',
-            'VALIDATION.DATE_RANGE.FORMAT': 'Parameter `%s` must be a valid date range in format YYYY-MM-DD / YYYY-MM-DD',
+            'VALIDATION.DATE.FORMAT': 'Parameter `%s` must be a valid date value in format YYYY-MM-DD',
+            'VALIDATION.DATE_RANGE.FORMAT': 'Parameter `%s` must be a valid date-range value in format YYYY-MM-DD / YYYY-MM-DD',
             'VALIDATION.DATE_RANGE.START_GREATER_THAN_END': 'Parameter `%s` is invalid: start date must be less or equal to end date',
+            'VALIDATION.DATE_TIME.FORMAT': 'Parameter `%s` must be a valid date-time value in format YYYY-MM-DD HH:mm:SS',
             'VALIDATION.EMAIL': 'Parameter `%s` must be a valid email address',
             'VALIDATION.ENUM': 'Parameter `%s` must belong to enumeration %s',
             'VALIDATION.INTEGER': 'Parameter `%s` must be an integer',
@@ -77,6 +78,12 @@ class BaseEN:
             'VALIDATION.MAX.STR': 'Parameter `%s` must not contain more than %d symbols',
             'VALIDATION.MIN.NUMERIC': 'Parameter `%s` must be >= %f',
             'VALIDATION.MIN.STR': 'Parameter `%s` must contain at least %d symbols',
+
+            'VALIDATION.COMPARISON.MISSING_COMPARABLE_TYPE': 'Validation rule `%s` requires parameter `%s` to be of a comparable type: %s',
+            'VALIDATION.COMPARISON.GREATER_THAN': 'Parameter `%s` must be greater than parameter `%s`',
+            'VALIDATION.COMPARISON.GREATER_THAN_OR_EQUAL': 'Parameter `%s` must be greater than or equal to parameter `%s`',
+            'VALIDATION.COMPARISON.LESS_THAN': 'Parameter `%s` must be less than parameter `%s`',
+            'VALIDATION.COMPARISON.LESS_THAN_OR_EQUAL': 'Parameter `%s` must be less than or equal to parameter `%s`',
 
             'VALIDATION.UNIQUE': '%s \'%s\' is already taken',
         })

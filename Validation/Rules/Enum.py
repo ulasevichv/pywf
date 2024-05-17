@@ -1,20 +1,17 @@
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
 from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Rules.BaseRule import BaseRule
 from vendor.pywf.Validation.Exceptions.Http.ValidationException import ValidationException
+from vendor.pywf.Validation.Rules.BaseRule import BaseRule
 
 
 class Enum(BaseRule):
-    name = 'enum'
+    name: str = 'enum'
 
     @classmethod
-    def validate(cls, data, paramName, paramNamePrefix='', allParamRules=None, *ruleAttributes):
+    def validate(cls, data: Dict, paramName: str, paramNamePrefix: str = '', allParamRules: list = None, *ruleAttributes) -> None:
         if data.get(paramName) is None:
             return
-
-        if allParamRules is None:
-            allParamRules = []
 
         paramValue = data.get(paramName)
         enumValues = list(ruleAttributes)
@@ -24,5 +21,3 @@ class Enum(BaseRule):
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.ENUM', alteredParamName, '[' + ', '.join(enumValues) + ']')
             }))
-
-        return paramValue

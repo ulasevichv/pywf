@@ -7,10 +7,10 @@ from vendor.pywf.Validation.Rules.BaseRule import BaseRule
 
 
 class Min(BaseRule):
-    name = 'min'
+    name: str = 'min'
 
     @classmethod
-    def validate(cls, data, paramName, paramNamePrefix='', allParamRules=None, *ruleAttributes):
+    def validate(cls, data: Dict, paramName: str, paramNamePrefix: str = '', allParamRules: list = None, *ruleAttributes) -> None:
         if data.get(paramName) is None:
             return
 
@@ -18,8 +18,9 @@ class Min(BaseRule):
             allParamRules = []
 
         paramValue = data.get(paramName)
-        minValue = float(ruleAttributes[0])
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
+
+        minValue = float(ruleAttributes[0])
 
         if isinstance(paramValue, str) and cls.isStrByRules(allParamRules):
             if len(paramValue) < minValue:
@@ -32,5 +33,3 @@ class Min(BaseRule):
                 raise ValidationException(Dict({
                     alteredParamName: Lang.msg('VALIDATION.MIN.NUMERIC', alteredParamName, minValue)
                 }))
-
-        return paramValue

@@ -76,6 +76,10 @@ class MethodsForStrings:
         return r'^[ ]*(\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]))[ ]*\/[ ]*(\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]))[ ]*$'
 
     @classmethod
+    def getDateTimeRegEx(cls):
+        return r'^[ ]*(\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]))[ ]*$'
+
+    @classmethod
     def generateRandomString(cls, stringLength: int, symbolSet: str = None):
         """
         Generate random string

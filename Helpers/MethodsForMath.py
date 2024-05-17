@@ -1,31 +1,19 @@
+from typing import Any
+
+from vendor.pywf.Helpers.Log import Log
+
+
 class MethodsForMath:
     @classmethod
-    def isNumeric(cls, value):
-        if isinstance(value, (int, float, complex)):
-            return True
-
+    def isNumeric(cls, value: Any) -> bool:
         try:
-            int(value)
+            cls.toNumeric(value)
             return True
         except ValueError:
-            pass
-
-        try:
-            float(value)
-            return True
-        except ValueError:
-            pass
-
-        try:
-            complex(value)
-            return True
-        except ValueError:
-            pass
-
-        return False
+            return False
 
     @classmethod
-    def toNumeric(cls, value):
+    def toNumeric(cls, value: Any) -> int | float | complex:
         if isinstance(value, (int, float, complex)):
             return value
 

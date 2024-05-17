@@ -78,12 +78,12 @@ class BaseConsoleCommand:
 
     @classmethod
     def getParam(cls, paramName: str, defaultValue=None):
-        parsedParamsDict = cls.parseParameters()
+        parsedParams = cls.parseParameters()
 
-        if paramName not in parsedParamsDict.keys():
+        if paramName not in parsedParams.keys():
             return defaultValue
 
-        return parsedParamsDict[paramName]
+        return parsedParams[paramName]
 
     @classmethod
     def getObligatoryParam(cls, paramName: str):

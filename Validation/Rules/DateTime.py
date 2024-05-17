@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any
 
 from vendor.pywf.Helpers.Dict import Dict
@@ -9,11 +10,11 @@ from vendor.pywf.Validation.Exceptions.Logic.FormatException import FormatExcept
 from vendor.pywf.Validation.Rules.BaseTypeRule import BaseTypeRule
 
 
-class Email(BaseTypeRule):
-    name: str = 'email'
+class DateTime(BaseTypeRule):
+    name: str = 'dateTime'
 
     @classmethod
-    def validate(cls, data: Dict, paramName: str, paramNamePrefix: str = '', allParamRules: list = None, *ruleAttributes) -> str | None:
+    def validate(cls, data: Dict, paramName: str, paramNamePrefix: str = '', allParamRules: list = None, *ruleAttributes) -> datetime | None:
         if data.get(paramName) is None:
             return None
 
@@ -26,19 +27,27 @@ class Email(BaseTypeRule):
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.STRING', alteredParamName)
             }))
-        except FormatException:
+        except FormatException as ex:
             raise ValidationException(Dict({
-                alteredParamName: Lang.msg('VALIDATION.EMAIL', alteredParamName)
+                alteredParamName: str(ex) % alteredParamName
+            }))
+        except ValueError as ex:
+            raise ValidationException(Dict({
+                alteredParamName: str(ex)
             }))
 
     @classmethod
-    def parse(cls, value: Any) -> str:
+    def parse(cls, value: Any) -> datetime:
         if not isinstance(value, str):
             raise TypeError
 
         import re
 
-        if re.match(MethodsForStrings.getEmailRegEx(), value) is None:
-            raise FormatException
+        matches = re.findall(MethodsForStrings.getDateTimeRegEx(), value)
 
-        return value
+        if len(matches) == 0:
+            raise FormatException(Lang.msg('VALIDATION.DATE_TIME.FORMAT', '%s'))
+
+        dateStr = matches[0][0]
+        dt = datetime.strptime(dateStr, '%Y-%m-%d %H:%M:%S')
+        return dt
