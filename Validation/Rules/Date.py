@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from vendor.pywf.Helpers.Dict import Dict
@@ -49,6 +49,6 @@ class Date(BaseTypeRule):
             raise FormatException(Lang.msg('VALIDATION.DATE.FORMAT', '%s'))
 
         dateStr = matches[0][0]
-        startDT = datetime.strptime(dateStr, '%Y-%m-%d')
+        startDT = datetime.strptime(dateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc)
         endDT = startDT.replace(hour=23, minute=59, second=59)
         return [startDT, endDT]

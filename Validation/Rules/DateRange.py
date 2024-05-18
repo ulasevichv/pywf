@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from vendor.pywf.Helpers.Dict import Dict
@@ -46,28 +46,28 @@ class DateRange(BaseTypeRule):
         matches = re.findall(MethodsForStrings.getDateRegEx(), value)
         if len(matches) != 0:
             dateStr = matches[0][0]
-            startDT = datetime.strptime(dateStr, '%Y-%m-%d')
+            startDT = datetime.strptime(dateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc)
             endDT = startDT.replace(hour=23, minute=59, second=59)
             return [startDT, endDT]
 
         matches = re.findall(MethodsForStrings.getDateRangeStartOnlyRegEx(), value)
         if len(matches) != 0:
             dateStr = matches[0][0]
-            startDT = datetime.strptime(dateStr, '%Y-%m-%d')
+            startDT = datetime.strptime(dateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc)
             return [startDT, None]
 
         matches = re.findall(MethodsForStrings.getDateRangeEndOnlyRegEx(), value)
         if len(matches) != 0:
             dateStr = matches[0][0]
-            endDT = datetime.strptime(dateStr, '%Y-%m-%d').replace(hour=23, minute=59, second=59)
+            endDT = datetime.strptime(dateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc).replace(hour=23, minute=59, second=59)
             return [None, endDT]
 
         matches = re.findall(MethodsForStrings.getDateRangeBothRegEx(), value)
         if len(matches) != 0:
             startDateStr = matches[0][0]
             endDateStr = matches[0][3]
-            startDT = datetime.strptime(startDateStr, '%Y-%m-%d')
-            endDT = datetime.strptime(endDateStr, '%Y-%m-%d').replace(hour=23, minute=59, second=59)
+            startDT = datetime.strptime(startDateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+            endDT = datetime.strptime(endDateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc).replace(hour=23, minute=59, second=59)
 
             if startDT > endDT:
                 raise FormatException(Lang.msg('VALIDATION.DATE_RANGE.START_GREATER_THAN_END', '%s'))
