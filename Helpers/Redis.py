@@ -44,7 +44,7 @@ class Redis:
     @classmethod
     def _getTokenKeyPrefix(cls) -> str:
         if cls._tokenKeyPrefix is None:
-            cls._tokenKeyPrefix = Kernel.getApp().envFile.get('REDIS_USER_TOKEN_PREFIX') + ':token:'
+            cls._tokenKeyPrefix = Kernel.getApp().envFile.get('REDIS_PROJECT_PREFIX') + ':user_token:'
         return cls._tokenKeyPrefix
 
     @classmethod

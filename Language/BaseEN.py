@@ -38,6 +38,11 @@ class BaseEN:
             'DB.RECORD.NOT_FOUND': '%s {%s} is not found%s',
             'DB.COMPOSITE_PK.NOT_SUPPORTED': 'Invalid SQL-expression: composite primary key is not supported. Table name: `%s`',
 
+            # Processes.
+
+            'PROCESS.LAUNCH_ERROR.TIMEOUT': 'Error on process launch: process didn\'t respond in time',
+            'PROCESS.LAUNCH_ERROR.ANOTHER_INSTANCE_RUNNING': 'Error on process launch: another `%s` process is still running. Running process PID=%s',
+
             # Sorting.
 
             'SORTING.NOT_AN_ARRAY': 'The `%s` must be an array',

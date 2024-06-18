@@ -9,7 +9,14 @@ class BaseApplication:
     routeGroups: list = []
     envFile: Dict = None
     languageFilesRelativeDirPath: str = 'Language'
-    envFileConversionRules: Dict = Dict({})
+
+    @classmethod
+    def loadEnvFile(cls, envFileConversionRules: Dict = None):
+        if envFileConversionRules is None:
+            envFileConversionRules = Dict({})
+
+        from vendor.pywf.Helpers.MethodsForFileSystem import MethodsForFileSystem
+        cls.envFile = MethodsForFileSystem.readEnvFile(cls.rootPath + '/' + '.env', envFileConversionRules)
 
     @classmethod
     def getAllRouteFilePaths(cls, relativeRoutesDirPath: str) -> list:

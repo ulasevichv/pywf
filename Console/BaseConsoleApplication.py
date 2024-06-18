@@ -4,7 +4,6 @@ from vendor.pywf.Application.BaseApplication import BaseApplication
 from vendor.pywf.Console.BaseConsoleCommand import BaseConsoleCommand
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Helpers.MethodsForFileSystem import MethodsForFileSystem
 from vendor.pywf.Language.Lang import Lang
 
 
@@ -12,11 +11,9 @@ class BaseConsoleApplication(BaseApplication):
     def __init__(self):
         super().__init__()
         type(self).isConsoleApp = True
+        type(self).rootPath = str(Path('').resolve()).replace("\\", '/')
 
     def processRequest(self):
-        type(self).rootPath = str(Path('').resolve()).replace("\\", '/')
-        type(self).envFile = MethodsForFileSystem.readEnvFile(self.rootPath + '/' + '.env', self.envFileConversionRules)
-
         self.readAllRoutes('Console/Routes')
 
         allArguments = BaseConsoleCommand.getAllArguments()

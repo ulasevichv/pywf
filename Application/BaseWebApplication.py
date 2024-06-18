@@ -5,7 +5,6 @@ import urllib.parse
 from vendor.pywf.Application.BaseApplication import BaseApplication
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Helpers.MethodsForFileSystem import MethodsForFileSystem
 from vendor.pywf.Http.Request import Request
 from vendor.pywf.Validation.Exceptions.Http.NotFoundException import NotFoundException
 
@@ -15,14 +14,13 @@ class BaseWebApplication(BaseApplication):
     osEnv: Dict = None
     request: Request = None
 
-    def __init__(self):
+    def __init__(self, env: dict):
         super().__init__()
         type(self).isConsoleApp = False
-
-    def processRequest(self, env: dict):
         type(self).osEnv = Dict(env)
         type(self).rootPath = str(Path(self.osEnv.DOCUMENT_ROOT + '/..').resolve()).replace("\\", '/')
-        type(self).envFile = MethodsForFileSystem.readEnvFile(self.rootPath + '/' + '.env', self.envFileConversionRules)
+
+    def processRequest(self):
         type(self).request = Request()
 
         requestMethod = self.request.method
