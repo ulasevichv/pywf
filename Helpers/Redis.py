@@ -1,10 +1,10 @@
 from redis import Redis as LibRedis
 
-from App.Kernel import Kernel
-
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
 from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
+
+from App.Kernel import Kernel
 
 
 class Redis:

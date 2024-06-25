@@ -9,13 +9,11 @@ class BaseProcess:
     pidFileRelativePath: str = ''
 
     @classmethod
-    def doBaseImports(cls):
-        pass
-
-    @classmethod
     @abstractmethod
     def execute(cls) -> None:
         pass
+
+    # def getRedisQueue
 
     @classmethod
     def initializeConsoleApp(cls) -> BaseWebApplication | BaseConsoleApplication:

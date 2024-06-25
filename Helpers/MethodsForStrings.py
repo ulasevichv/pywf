@@ -131,10 +131,138 @@ class MethodsForStrings:
 
         match alignment:
             case 'center':
-                return indent + s + indent if indentLength * 2 == requiredLength else indent + s + indent + patternSymbol
+                return indent + s + indent if indentLength * 2 + strLen == requiredLength else indent + s + indent + patternSymbol
             case 'left':
                 return s + indent
             case 'right':
                 return indent + s
             case _:
                 return s
+
+    """
+     * Get string representation of an array of objects (in form of a table).
+     *
+     * arr                  - Array of objects.
+     * displayPropertyNames - Array of property names to display. If empty - all properties will be shown.
+     * labels               - Array of labels for header (to replace property names). If empty - property names will be used.
+     * alignment            - Alignment (['left', 'right', 'center']).
+     * returnAsArray        - Whether to return result as an array of lines.
+    """
+    @classmethod
+    def objectsArrayToStringTable(cls, arr: list[dict], displayPropertyNames: list[str] = None, labels: list[str] = None, alignment: str = 'left', returnAsArray: bool = False
+                                  ) -> str | list[str]:
+        if displayPropertyNames is None:
+            displayPropertyNames = []
+        if labels is None:
+            labels = []
+
+        feed = []
+
+        numItems = len(arr)
+
+        if numItems == 0:
+            feed.append('+=============+')
+            feed.append('| Empty table |')
+            feed.append('+=============+')
+        else:
+            if len(displayPropertyNames) == 0:
+                for propertyName, value in arr[0].items():
+                    displayPropertyNames.append(propertyName)
+
+            numDisplayProperties = len(displayPropertyNames)
+
+            if len(labels) != numDisplayProperties:
+                labels = []
+
+            useLabels = (len(labels) != 0)
+
+            # Counting number of symbols in columns.
+
+            numSymbolsByColumns = []
+
+            for k, propertyName in enumerate(displayPropertyNames):
+                title = labels[k] if useLabels else propertyName
+                columnContentLength = len(title)
+
+                for i in range(0, numItems):
+                    cellContent = arr[i][propertyName]
+
+                    if isinstance(cellContent, (dict, list)):
+                        cellContentLen = 2
+                    else:
+                        cellContentLen = len(str(cellContent))
+
+                    # Log.info(str(i) + ' "' + propertyName + '": ' + str(cellValue) + ' -> ' + str(cellContentLen))
+
+                    if cellContentLen > columnContentLength:
+                        columnContentLength = cellContentLen
+
+                # Adding 2 additional spaces and storing.
+                columnContentLength += 2
+
+                # Log.info(str(k) + ' "' + propertyName + '": ' + str(columnContentLength))
+
+                numSymbolsByColumns.append(columnContentLength)
+
+            # Log.info(numSymbolsByColumns)
+
+            # ==========
+            # Creating table head.
+            # ==========
+
+            # Line one.
+
+            lineFeed = []
+
+            for k, propertyName in enumerate(displayPropertyNames):
+                lineFeed.append('=' * numSymbolsByColumns[k])
+
+            feed.append('+' + '+'.join(lineFeed) + '+')
+
+            # Line two.
+
+            lineFeed = []
+
+            for k, propertyName in enumerate(displayPropertyNames):
+                title = labels[k] if useLabels else propertyName
+                lineFeed.append(' ' + cls.alignString(title, numSymbolsByColumns[k] - 2, alignment) + ' ')
+
+            feed.append('|' + '|'.join(lineFeed) + '|')
+
+            # Line three.
+
+            feed.append(feed[0])
+
+            # ==========
+            # Creating table body.
+            # ==========
+
+            for i in range(0, numItems):
+                lineFeed = []
+
+                for k, propertyName in enumerate(displayPropertyNames):
+                    cellContent = arr[i][propertyName]
+
+                    if isinstance(cellContent, dict):
+                        cellContent = '{}'
+                    elif isinstance(cellContent, list):
+                        cellContent = '[]'
+                    else:
+                        cellContent = str(cellContent)
+
+                    lineFeed.append(' ' + cls.alignString(cellContent, numSymbolsByColumns[k] - 2, alignment) + ' ')
+
+                feed.append('|' + '|'.join(lineFeed) + '|')
+
+            # ==========
+            # Creating table footer.
+            # ==========
+
+            lineFeed = []
+
+            for k, propertyName in enumerate(displayPropertyNames):
+                lineFeed.append('-' * numSymbolsByColumns[k])
+
+            feed.append('+' + '+'.join(lineFeed) + '+')
+
+        return feed if returnAsArray else "\n".join(feed)
