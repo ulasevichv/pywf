@@ -1,23 +1,22 @@
 from abc import abstractmethod
 
-from vendor.pywf.Application.BaseWebApplication import BaseWebApplication
 from vendor.pywf.Console.BaseConsoleApplication import BaseConsoleApplication
+
+from App.Kernel import Kernel
 
 
 class BaseProcess:
     isExclusive: bool = False
     pidFileRelativePath: str = ''
+    redisStartupQueueName: str = ''
 
     @classmethod
     @abstractmethod
     def execute(cls) -> None:
         pass
 
-    # def getRedisQueue
-
     @classmethod
-    def initializeConsoleApp(cls) -> BaseWebApplication | BaseConsoleApplication:
-        from App.Kernel import Kernel
+    def initializeConsoleApp(cls) -> BaseConsoleApplication:
         from Console.ConsoleApplication import ConsoleApplication
 
         app = ConsoleApplication()
@@ -78,3 +77,14 @@ class BaseProcess:
         from vendor.pywf.Language.Lang import Lang
         Log.error(Lang.msg('PROCESS.LAUNCH_ERROR.ANOTHER_INSTANCE_RUNNING', cls.__name__, str(concurrentProcessPID)))
         return True
+
+    @classmethod
+    def getStartupRedisQueueName(cls, pid: int):
+        return Kernel.getApp().envFile.get('REDIS_PROJECT_PREFIX') + ':' + cls.redisStartupQueueName + ':' + str(pid)
+
+    @classmethod
+    def writeToRedisStartupQueue(cls, pid: int, msg: str | int):
+        from vendor.pywf.Helpers.Redis import Redis
+
+        Redis.rpush(cls.getStartupRedisQueueName(pid), msg)
+        Redis.close()

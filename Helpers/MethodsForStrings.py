@@ -1,5 +1,6 @@
 import datetime
 
+from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.Log import Log
 
 
@@ -139,6 +140,17 @@ class MethodsForStrings:
             case _:
                 return s
 
+    @classmethod
+    def listToStringTable(cls, arr: list):
+        itemsAsObjects = []
+        for i in range(0, len(arr)):
+            itemsAsObjects.append(Dict({
+                'index': i,
+                'value': arr[i]
+            }))
+        return ('Num items: ' + str(len(arr))
+                + "\n" + MethodsForStrings.objectsArrayToStringTable(itemsAsObjects, [], ['#', 'Value']))
+
     """
      * Get string representation of an array of objects (in form of a table).
      *
@@ -192,19 +204,14 @@ class MethodsForStrings:
                     else:
                         cellContentLen = len(str(cellContent))
 
-                    # Log.info(str(i) + ' "' + propertyName + '": ' + str(cellValue) + ' -> ' + str(cellContentLen))
-
                     if cellContentLen > columnContentLength:
                         columnContentLength = cellContentLen
 
                 # Adding 2 additional spaces and storing.
+
                 columnContentLength += 2
 
-                # Log.info(str(k) + ' "' + propertyName + '": ' + str(columnContentLength))
-
                 numSymbolsByColumns.append(columnContentLength)
-
-            # Log.info(numSymbolsByColumns)
 
             # ==========
             # Creating table head.

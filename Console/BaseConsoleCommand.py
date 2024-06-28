@@ -77,17 +77,27 @@ class BaseConsoleCommand:
         return cls._parsedParams
 
     @classmethod
-    def getParam(cls, paramName: str, defaultValue=None):
+    def getParam(cls, paramName: str, paramType: str = 'str', defaultValue=None):
         parsedParams = cls.parseParameters()
 
-        if paramName not in parsedParams.keys():
+        if paramName not in parsedParams.keys() or parsedParams[paramName] is None or parsedParams[paramName] == '':
             return defaultValue
 
-        return parsedParams[paramName]
+        paramValue = parsedParams[paramName]
+
+        match paramType:
+            case 'str':
+                return paramValue
+            case 'bool':
+                return bool(paramValue)
+            case 'int':
+                return int(paramValue)
+            case _:
+                raise Exception(Lang.msg('GENERAL.INVALID_ENUM_VALUE', paramType))
 
     @classmethod
-    def getObligatoryParam(cls, paramName: str):
-        paramValue = cls.getParam(paramName, None)
+    def getObligatoryParam(cls, paramName: str, paramType: str = 'str'):
+        paramValue = cls.getParam(paramName, paramType, None)
         if paramValue is None:
             raise Exception(Lang.msg('CONSOLE.OBLIGATORY_PARAMETER_MISSING', paramName))
         return paramValue
