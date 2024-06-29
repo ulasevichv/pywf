@@ -92,6 +92,12 @@ class Redis:
 
         return rds.rpush(name, *values)
 
+    @classmethod
+    def lpop(cls, name: str, count: int | None = None) -> str | list | None:
+        rds = cls.getConnection()
+
+        return rds.lpop(name, count)
+
     # ==================================================
     # User authorization tokens.
     # ==================================================

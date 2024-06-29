@@ -141,7 +141,7 @@ class MethodsForStrings:
                 return s
 
     @classmethod
-    def listToStringTable(cls, arr: list):
+    def simpleListToStringTable(cls, arr: list):
         itemsAsObjects = []
         for i in range(0, len(arr)):
             itemsAsObjects.append(Dict({
@@ -149,7 +149,7 @@ class MethodsForStrings:
                 'value': arr[i]
             }))
         return ('Num items: ' + str(len(arr))
-                + "\n" + MethodsForStrings.objectsArrayToStringTable(itemsAsObjects, [], ['#', 'Value']))
+                + "\n" + MethodsForStrings.objectsListToStringTable(itemsAsObjects, [], ['#', 'Value']))
 
     """
      * Get string representation of an array of objects (in form of a table).
@@ -161,8 +161,8 @@ class MethodsForStrings:
      * returnAsArray        - Whether to return result as an array of lines.
     """
     @classmethod
-    def objectsArrayToStringTable(cls, arr: list[dict], displayPropertyNames: list[str] = None, labels: list[str] = None, alignment: str = 'left', returnAsArray: bool = False
-                                  ) -> str | list[str]:
+    def objectsListToStringTable(cls, arr: list[dict], displayPropertyNames: list[str] = None, labels: list[str] = None, alignment: str = 'left', returnAsArray: bool = False
+                                 ) -> str | list[str]:
         if displayPropertyNames is None:
             displayPropertyNames = []
         if labels is None:
@@ -272,4 +272,4 @@ class MethodsForStrings:
 
             feed.append('+' + '+'.join(lineFeed) + '+')
 
-        return feed if returnAsArray else "\n".join(feed)
+        return feed if returnAsArray else 'Num items: ' + str(len(arr)) + "\n" + "\n".join(feed)

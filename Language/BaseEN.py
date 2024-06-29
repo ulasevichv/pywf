@@ -41,7 +41,7 @@ class BaseEN:
             # Processes.
 
             'PROCESS.LAUNCH_ERROR.TIMEOUT': 'Error on process launch: process didn\'t respond in time',
-            'PROCESS.LAUNCH_ERROR.ANOTHER_INSTANCE_RUNNING': 'Error on process launch: another `%s` process is still running. Running process PID=%s',
+            'PROCESS.LAUNCH_ERROR.ANOTHER_INSTANCE_RUNNING': 'Error on `%s` %s process launch: concurrent process %s is still running',
 
             # Sorting.
 

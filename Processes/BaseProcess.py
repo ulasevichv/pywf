@@ -1,8 +1,5 @@
-from abc import abstractmethod
-
-from vendor.pywf.Console.BaseConsoleApplication import BaseConsoleApplication
-
 from App.Kernel import Kernel
+from Console.ConsoleApplication import ConsoleApplication
 
 
 class BaseProcess:
@@ -10,19 +7,55 @@ class BaseProcess:
     pidFileRelativePath: str = ''
     redisStartupQueueName: str = ''
 
-    @classmethod
-    @abstractmethod
-    def execute(cls) -> None:
-        pass
+    def __init__(self):
+        import os
+
+        self.pid: int = os.getpid()
+        self.app: ConsoleApplication = ConsoleApplication()
+        Kernel.registerApp(self.app)
+
+        self.initialized: bool = self.initialize()
+        if not self.initialized:
+            # from vendor.pywf.Helpers.Log import Log
+            # type(self).logRedisStartupQueue(self.pid)
+            return
+
+        # from vendor.pywf.Helpers.Log import Log
+        # type(self).logRedisStartupQueue(self.pid)
+
+        self.allStartupParams = type(self).getAllStartupParams()
+
+    def initialize(self) -> bool:
+        if not type(self).isExclusive:
+            type(self).writeToRedisStartupQueue(self.pid, 0)
+            return True
+
+        concurrentProcessPID = type(self).readPIDFromFile()
+
+        if concurrentProcessPID is not None:
+            from vendor.pywf.Helpers.Log import Log
+
+            errorMsg = type(self).getConcurrentProcessRunningErrorMessage(self.pid, concurrentProcessPID)
+
+            type(self).writeToRedisStartupQueue(self.pid, errorMsg)
+            # Log.warning(errorMsg)
+
+            return False
+
+        type(self).writePIDToFile()
+        type(self).writeToRedisStartupQueue(self.pid, 0)
+
+        return True
 
     @classmethod
-    def initializeConsoleApp(cls) -> BaseConsoleApplication:
-        from Console.ConsoleApplication import ConsoleApplication
+    def getAllStartupParams(cls):
+        import sys
 
-        app = ConsoleApplication()
-        Kernel.registerApp(app)
+        return sys.argv[1:]
 
-        return app
+    @classmethod
+    def cleanup(cls):
+        cls.cleanPIDFile()
 
     @classmethod
     def writePIDToFile(cls) -> None:
@@ -35,7 +68,7 @@ class BaseProcess:
 
     @classmethod
     def cleanPIDFile(cls) -> None:
-        if cls.pidFileRelativePath == '':
+        if not cls.isExclusive or cls.pidFileRelativePath == '':
             return
 
         from vendor.pywf.Helpers.MethodsForFileSystem import MethodsForFileSystem
@@ -68,23 +101,33 @@ class BaseProcess:
             return
 
     @classmethod
-    def whetherConcurrentProcessIsRunning(cls) -> bool:
-        concurrentProcessPID = cls.readPIDFromFile()
-        if concurrentProcessPID is None:
-            return False
-
-        from vendor.pywf.Helpers.Log import Log
+    def getConcurrentProcessRunningErrorMessage(cls, pid: int, concurrentProcessPID: int):
         from vendor.pywf.Language.Lang import Lang
-        Log.error(Lang.msg('PROCESS.LAUNCH_ERROR.ANOTHER_INSTANCE_RUNNING', cls.__name__, str(concurrentProcessPID)))
-        return True
+        return Lang.msg('PROCESS.LAUNCH_ERROR.ANOTHER_INSTANCE_RUNNING', cls.__name__, str(pid), str(concurrentProcessPID))
 
     @classmethod
-    def getStartupRedisQueueName(cls, pid: int):
-        return Kernel.getApp().envFile.get('REDIS_PROJECT_PREFIX') + ':' + cls.redisStartupQueueName + ':' + str(pid)
+    def getRedisStartupQueueNamePrefix(cls):
+        return Kernel.getApp().envFile.get('REDIS_PROJECT_PREFIX') + ':' + cls.redisStartupQueueName + ':'
+
+    @classmethod
+    def getRedisStartupQueueName(cls, pid: int):
+        return cls.getRedisStartupQueueNamePrefix() + str(pid)
 
     @classmethod
     def writeToRedisStartupQueue(cls, pid: int, msg: str | int):
         from vendor.pywf.Helpers.Redis import Redis
 
-        Redis.rpush(cls.getStartupRedisQueueName(pid), msg)
+        Redis.rpush(cls.getRedisStartupQueueName(pid), msg)
+        Redis.close()
+
+    @classmethod
+    def logRedisStartupQueue(cls, pid: int):
+        from vendor.pywf.Helpers.Log import Log
+        from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
+        from vendor.pywf.Helpers.Redis import Redis
+
+        queueName = cls.getRedisStartupQueueName(pid)
+        Log.info('Queue: ' + queueName)
+        items = Redis.lrange(queueName, 0, -1)
+        Log.info(MethodsForStrings.simpleListToStringTable(items))
         Redis.close()
