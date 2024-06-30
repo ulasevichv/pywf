@@ -1,7 +1,7 @@
 from typing import Any
 
 from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Exceptions.Logic.InputFormatException import InputFormatException
+from vendor.pywf.Exceptions.Logic.InputParameterException import InputParameterException
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
 from vendor.pywf.Language.Lang import Lang
@@ -25,7 +25,7 @@ class Email(BaseTypeRule):
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.STRING', alteredParamName)
             }))
-        except InputFormatException:
+        except InputParameterException:
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.EMAIL', alteredParamName)
             }))
@@ -38,6 +38,6 @@ class Email(BaseTypeRule):
         import re
 
         if re.match(MethodsForStrings.getEmailRegEx(), value) is None:
-            raise InputFormatException
+            raise InputParameterException
 
         return value

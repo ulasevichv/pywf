@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Exceptions.Logic.InputFormatException import InputFormatException
+from vendor.pywf.Exceptions.Logic.InputParameterException import InputParameterException
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
 from vendor.pywf.Language.Lang import Lang
@@ -26,7 +26,7 @@ class DateRange(BaseTypeRule):
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.STRING', alteredParamName)
             }))
-        except InputFormatException as ex:
+        except InputParameterException as ex:
             raise ValidationException(Dict({
                 alteredParamName: str(ex) % alteredParamName
             }))
@@ -69,8 +69,8 @@ class DateRange(BaseTypeRule):
             endDT = datetime.strptime(endDateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc).replace(hour=23, minute=59, second=59)
 
             if startDT > endDT:
-                raise InputFormatException(Lang.msg('VALIDATION.DATE_RANGE.START_GREATER_THAN_END', '%s'))
+                raise InputParameterException(Lang.msg('VALIDATION.DATE_RANGE.START_GREATER_THAN_END', '%s'))
 
             return [startDT, endDT]
 
-        raise InputFormatException(Lang.msg('VALIDATION.DATE_RANGE.FORMAT', '%s'))
+        raise InputParameterException(Lang.msg('VALIDATION.DATE_RANGE.FORMAT', '%s'))

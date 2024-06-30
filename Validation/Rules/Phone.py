@@ -1,7 +1,7 @@
 from typing import Any
 
 from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Exceptions.Logic.InputFormatException import InputFormatException
+from vendor.pywf.Exceptions.Logic.InputParameterException import InputParameterException
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
 from vendor.pywf.Language.Lang import Lang
@@ -25,7 +25,7 @@ class Phone(BaseTypeRule):
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.STRING', alteredParamName)
             }))
-        except InputFormatException:
+        except InputParameterException:
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.PHONE', alteredParamName)
             }))
@@ -38,6 +38,6 @@ class Phone(BaseTypeRule):
         import re
 
         if re.match(MethodsForStrings.getPhoneRegEx(), value) is None:
-            raise InputFormatException
+            raise InputParameterException
 
         return value

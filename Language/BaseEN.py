@@ -38,6 +38,12 @@ class BaseEN:
             'DB.RECORD.NOT_FOUND': '%s {%s} is not found%s',
             'DB.COMPOSITE_PK.NOT_SUPPORTED': 'Invalid SQL-expression: composite primary key is not supported. Table name: `%s`',
 
+            # External services.
+
+            'EXTERNAL_SERVICE.INVALID_RESPONSE_STATUS_CODE': 'External service returned invalid status code: %s',
+
+            'EXTERNAL_SERVICE.INVALID_RESPONSE_CONTENT_TYPE': 'External service returned invalid content type: %s',
+
             # Processes.
 
             'PROCESS.LAUNCH_ERROR.TIMEOUT': 'Error on process launch: process didn\'t respond in time',
