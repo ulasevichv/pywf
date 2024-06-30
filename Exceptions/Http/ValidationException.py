@@ -1,5 +1,5 @@
+from vendor.pywf.Exceptions.Http.UnprocessableEntityException import UnprocessableEntityException
 from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Validation.Exceptions.Http.UnprocessableEntityException import UnprocessableEntityException
 
 
 class ValidationException(UnprocessableEntityException):

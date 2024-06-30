@@ -2,11 +2,10 @@ from pathlib import Path
 import re
 import urllib.parse
 
+from vendor.pywf.Exceptions.Http.NotFoundException import NotFoundException
 from vendor.pywf.Application.BaseApplication import BaseApplication
 from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
 from vendor.pywf.Http.Request import Request
-from vendor.pywf.Validation.Exceptions.Http.NotFoundException import NotFoundException
 
 
 class BaseWebApplication(BaseApplication):

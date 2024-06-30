@@ -1,0 +1,2 @@
+class BaseFrameworkException(Exception):
+    pass

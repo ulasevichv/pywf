@@ -1,12 +1,11 @@
 from datetime import datetime, timezone
 from typing import Any
 
+from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
+from vendor.pywf.Exceptions.Logic.InputFormatException import InputFormatException
 from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
 from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
 from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Validation.Exceptions.Logic.FormatException import FormatException
 from vendor.pywf.Validation.Rules.BaseTypeRule import BaseTypeRule
 
 
@@ -27,7 +26,7 @@ class DateTime(BaseTypeRule):
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.STRING', alteredParamName)
             }))
-        except FormatException as ex:
+        except InputFormatException as ex:
             raise ValidationException(Dict({
                 alteredParamName: str(ex) % alteredParamName
             }))
@@ -46,7 +45,7 @@ class DateTime(BaseTypeRule):
         matches = re.findall(MethodsForStrings.getDateTimeRegEx(), value)
 
         if len(matches) == 0:
-            raise FormatException(Lang.msg('VALIDATION.DATE_TIME.FORMAT', '%s'))
+            raise InputFormatException(Lang.msg('VALIDATION.DATE_TIME.FORMAT', '%s'))
 
         dateStr = matches[0][0]
         dt = datetime.strptime(dateStr, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc)

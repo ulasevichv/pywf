@@ -1,7 +1,7 @@
+from vendor.pywf.Exceptions.Http.ForbiddenException import ForbiddenException
 from vendor.pywf.Http.Middleware.BaseMiddleware import BaseMiddleware
 from vendor.pywf.Http.Request import Request
 from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Exceptions.Http.ForbiddenException import ForbiddenException
 
 
 class CheckJson(BaseMiddleware):
