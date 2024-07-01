@@ -16,5 +16,5 @@ class BaseTypeRule(BaseRule):
 
     @classmethod
     @abstractmethod
-    def parse(cls, value: Any) -> Any:
+    def parse(cls, value: Any, paramName: str | None = None) -> Any:
         pass

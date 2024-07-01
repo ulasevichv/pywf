@@ -93,7 +93,7 @@ class BaseConsoleCommand:
             case 'int':
                 return int(paramValue)
             case _:
-                raise Exception(Lang.msg('GENERAL.INVALID_ENUM_VALUE', paramType))
+                raise Exception(Lang.msg('ARGUMENT.INVALID_ENUM_VALUE', paramType))
 
     @classmethod
     def getObligatoryParam(cls, paramName: str, paramType: str = 'str'):

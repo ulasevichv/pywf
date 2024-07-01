@@ -18,14 +18,14 @@ class Object(BaseTypeRule):
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         try:
-            return cls.parse(paramValue)
+            return cls.parse(paramValue, alteredParamName)
         except TypeError:
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.OBJECT', alteredParamName)
             }))
 
     @classmethod
-    def parse(cls, value: Any) -> Dict:
+    def parse(cls, value: Any, paramName: str | None = None) -> Dict:
         if not isinstance(value, dict):
             raise TypeError
 

@@ -112,7 +112,7 @@ class DB:
                     pass
 
                 case _:
-                    raise Exception(Lang.msg('GENERAL.INVALID_ENUM_VALUE', fil.dbMatchType))
+                    raise Exception(Lang.msg('ARGUMENT.INVALID_ENUM_VALUE', fil.dbMatchType))
 
     @classmethod
     def applySortSettingsToQuery(cls, query, sortSettings, defaultSortSettings=None):

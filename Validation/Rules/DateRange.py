@@ -21,24 +21,16 @@ class DateRange(BaseTypeRule):
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         try:
-            return cls.parse(paramValue)
-        except TypeError:
-            raise ValidationException(Dict({
-                alteredParamName: Lang.msg('VALIDATION.STRING', alteredParamName)
-            }))
-        except InputParameterException as ex:
-            raise ValidationException(Dict({
-                alteredParamName: str(ex) % alteredParamName
-            }))
-        except ValueError as ex:
+            return cls.parse(paramValue, alteredParamName)
+        except (InputParameterException, ValueError) as ex:
             raise ValidationException(Dict({
                 alteredParamName: str(ex)
             }))
 
     @classmethod
-    def parse(cls, value: Any) -> list[datetime]:
+    def parse(cls, value: Any, paramName: str | None = None) -> list[datetime]:
         if not isinstance(value, str):
-            raise TypeError
+            raise InputParameterException(Lang.msg('VALIDATION.STRING', paramName))
 
         import re
 
@@ -69,8 +61,8 @@ class DateRange(BaseTypeRule):
             endDT = datetime.strptime(endDateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc).replace(hour=23, minute=59, second=59)
 
             if startDT > endDT:
-                raise InputParameterException(Lang.msg('VALIDATION.DATE_RANGE.START_GREATER_THAN_END', '%s'))
+                raise InputParameterException(Lang.msg('VALIDATION.DATE_RANGE.START_GREATER_THAN_END', paramName))
 
             return [startDT, endDT]
 
-        raise InputParameterException(Lang.msg('VALIDATION.DATE_RANGE.FORMAT', '%s'))
+        raise InputParameterException(Lang.msg('VALIDATION.DATE_RANGE.FORMAT', paramName))

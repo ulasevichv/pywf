@@ -1,7 +1,5 @@
 from typing import Any
 
-from vendor.pywf.Helpers.Log import Log
-
 
 class MethodsForMath:
     @classmethod
@@ -32,12 +30,14 @@ class MethodsForMath:
         except ValueError:
             pass
 
-        raise ValueError('Value cannot be converted to any numeric type')
+        from vendor.pywf.Language.Lang import Lang
+        raise ValueError(Lang.msg('ARGUMENT.NOT_NUMERIC'))
 
     @classmethod
     def splitIntervalIntoGroups(cls, startIndex: int, endIndex: int, groupSize: int) -> list[list[int]]:
         if endIndex <= startIndex or groupSize < 1:
-            raise ValueError('Invalid function parameters')
+            from vendor.pywf.Language.Lang import Lang
+            raise ValueError(Lang.msg('ARGUMENT.INVALID_ARGUMENT'))
 
         length = endIndex - startIndex + 1
 

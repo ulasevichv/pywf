@@ -12,7 +12,7 @@ class MethodsForStrings:
         if (len(sources) != len(replacements)
                 | len(sources) == 0
                 | len(replacements) == 0):
-            raise Exception(Lang.msg('GENERAL.INVALID_ARGUMENT'))
+            raise Exception(Lang.msg('ARGUMENT.INVALID_ARGUMENT'))
 
         for i, source in enumerate(sources):
             replacement = replacements[i]
@@ -29,7 +29,7 @@ class MethodsForStrings:
         from vendor.pywf.Language.Lang import Lang
 
         if type(value) not in (str, int, float, complex, datetime.datetime) and value is not None:
-            raise Exception(Lang.msg('GENERAL.INVALID_TYPE', type(value).__name__))
+            raise Exception(Lang.msg('ARGUMENT.INVALID_TYPE', type(value).__name__))
 
         if value is None:
             return 'NULL'
@@ -42,7 +42,7 @@ class MethodsForStrings:
             case datetime.datetime():
                 return '"' + value.strftime('%Y-%m-%d %H:%M:%S') + '"'
             case _:
-                raise Exception(Lang.msg('GENERAL.INVALID_TYPE', type(value).__name__))
+                raise Exception(Lang.msg('ARGUMENT.INVALID_TYPE', type(value).__name__))
 
     @classmethod
     def escapeForSQLLike(cls, s: str) -> str:

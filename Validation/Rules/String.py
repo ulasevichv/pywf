@@ -1,6 +1,7 @@
 from typing import Any
 
 from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
+from vendor.pywf.Exceptions.Logic.InputParameterException import InputParameterException
 from vendor.pywf.Helpers.Dict import Dict
 from vendor.pywf.Language.Lang import Lang
 from vendor.pywf.Validation.Rules.BaseTypeRule import BaseTypeRule
@@ -18,15 +19,15 @@ class String(BaseTypeRule):
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         try:
-            return cls.parse(paramValue)
-        except TypeError:
+            return cls.parse(paramValue, alteredParamName)
+        except InputParameterException as ex:
             raise ValidationException(Dict({
-                alteredParamName: Lang.msg('VALIDATION.STRING', alteredParamName)
+                alteredParamName: str(ex)
             }))
 
     @classmethod
-    def parse(cls, value: Any) -> str:
+    def parse(cls, value: Any, paramName: str | None = None) -> str:
         if not isinstance(value, str):
-            raise TypeError
+            raise InputParameterException(Lang.msg('VALIDATION.STRING', paramName))
 
         return value

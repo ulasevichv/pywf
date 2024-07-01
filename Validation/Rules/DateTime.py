@@ -21,31 +21,23 @@ class DateTime(BaseTypeRule):
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         try:
-            return cls.parse(paramValue)
-        except TypeError:
-            raise ValidationException(Dict({
-                alteredParamName: Lang.msg('VALIDATION.STRING', alteredParamName)
-            }))
-        except InputParameterException as ex:
-            raise ValidationException(Dict({
-                alteredParamName: str(ex) % alteredParamName
-            }))
-        except ValueError as ex:
+            return cls.parse(paramValue, alteredParamName)
+        except (InputParameterException, ValueError) as ex:
             raise ValidationException(Dict({
                 alteredParamName: str(ex)
             }))
 
     @classmethod
-    def parse(cls, value: Any) -> datetime:
+    def parse(cls, value: Any, paramName: str | None = None) -> datetime:
         if not isinstance(value, str):
-            raise TypeError
+            raise InputParameterException(Lang.msg('VALIDATION.STRING', paramName))
 
         import re
 
         matches = re.findall(MethodsForStrings.getDateTimeRegEx(), value)
 
         if len(matches) == 0:
-            raise InputParameterException(Lang.msg('VALIDATION.DATE_TIME.FORMAT', '%s'))
+            raise InputParameterException(Lang.msg('VALIDATION.DATE_TIME.FORMAT', paramName))
 
         dateStr = matches[0][0]
         dt = datetime.strptime(dateStr, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc)

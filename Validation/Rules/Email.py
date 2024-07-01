@@ -20,24 +20,20 @@ class Email(BaseTypeRule):
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         try:
-            return cls.parse(paramValue)
-        except TypeError:
+            return cls.parse(paramValue, alteredParamName)
+        except InputParameterException as ex:
             raise ValidationException(Dict({
-                alteredParamName: Lang.msg('VALIDATION.STRING', alteredParamName)
-            }))
-        except InputParameterException:
-            raise ValidationException(Dict({
-                alteredParamName: Lang.msg('VALIDATION.EMAIL', alteredParamName)
+                alteredParamName: str(ex)
             }))
 
     @classmethod
-    def parse(cls, value: Any) -> str:
+    def parse(cls, value: Any, paramName: str | None = None) -> str:
         if not isinstance(value, str):
-            raise TypeError
+            raise InputParameterException(Lang.msg('VALIDATION.STRING', paramName))
 
         import re
 
         if re.match(MethodsForStrings.getEmailRegEx(), value) is None:
-            raise InputParameterException
+            raise InputParameterException(Lang.msg('VALIDATION.EMAIL', paramName))
 
         return value

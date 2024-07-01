@@ -19,12 +19,12 @@ class Numeric(BaseTypeRule):
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         try:
-            return cls.parse(paramValue)
+            return cls.parse(paramValue, alteredParamName)
         except ValueError:
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.NUMERIC', alteredParamName)
             }))
 
     @classmethod
-    def parse(cls, value: Any) -> int | float | complex:
+    def parse(cls, value: Any, paramName: str | None = None) -> int | float | complex:
         return MethodsForMath.toNumeric(value)

@@ -18,14 +18,14 @@ class Integer(BaseTypeRule):
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         try:
-            return cls.parse(paramValue)
+            return cls.parse(paramValue, alteredParamName)
         except (ValueError, TypeError):
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.INTEGER', alteredParamName)
             }))
 
     @classmethod
-    def parse(cls, value: Any) -> int:
+    def parse(cls, value: Any, paramName: str | None = None) -> int:
         if isinstance(value, int):
             return value
 

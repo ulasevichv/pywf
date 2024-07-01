@@ -26,7 +26,7 @@ class Log:
                 return 'error'
             case _:
                 from vendor.pywf.Language.Lang import Lang
-                raise Exception(Lang.msg('GENERAL.INVALID_ENUM_VALUE', level))
+                raise Exception(Lang.msg('ARGUMENT.INVALID_ENUM_VALUE', level))
 
     @classmethod
     def log(cls, data, level=LEVEL_INFO):

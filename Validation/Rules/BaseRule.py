@@ -26,7 +26,7 @@ class BaseRule:
         elif isinstance(rule, cls):
             return rule.name
         else:
-            raise Exception(Lang.msg('GENERAL.INVALID_TYPE', type(rule).__name__))
+            raise Exception(Lang.msg('ARGUMENT.INVALID_TYPE', type(rule).__name__))
 
     @classmethod
     def isStrByRules(cls, rules: list[str | Self]) -> bool:

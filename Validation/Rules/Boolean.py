@@ -18,14 +18,14 @@ class Boolean(BaseTypeRule):
         alteredParamName = cls.getAlteredParamName(paramName, paramNamePrefix)
 
         try:
-            return cls.parse(paramValue)
+            return cls.parse(paramValue, alteredParamName)
         except ValueError:
             raise ValidationException(Dict({
                 alteredParamName: Lang.msg('VALIDATION.BOOLEAN', alteredParamName)
             }))
 
     @classmethod
-    def parse(cls, value: Any) -> bool:
+    def parse(cls, value: Any, paramName: str | None = None) -> bool:
         if type(value) is bool:
             return value
 

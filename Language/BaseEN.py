@@ -7,13 +7,13 @@ class BaseEN:
     @classmethod
     def getConstants(cls) -> Dict:
         return Dict({
-            # ==================================================
-            # General.
-            # ==================================================
 
-            'GENERAL.INVALID_ARGUMENT': 'Invalid argument passed to a function',
-            'GENERAL.INVALID_ENUM_VALUE': 'Invalid enumeration value: %s',
-            'GENERAL.INVALID_TYPE': 'Invalid type: %s',
+            # Arguments.
+
+            'ARGUMENT.INVALID_ARGUMENT': 'Invalid argument passed to a function',
+            'ARGUMENT.INVALID_ENUM_VALUE': 'Invalid enumeration value: %s',
+            'ARGUMENT.INVALID_TYPE': 'Invalid type: %s',
+            'ARGUMENT.NOT_NUMERIC': 'Value cannot be converted to any numeric type',
 
             # Authorization.
 
@@ -41,7 +41,6 @@ class BaseEN:
             # External services.
 
             'EXTERNAL_SERVICE.INVALID_RESPONSE_STATUS_CODE': 'External service returned invalid status code: %s',
-
             'EXTERNAL_SERVICE.INVALID_RESPONSE_CONTENT_TYPE': 'External service returned invalid content type: %s',
 
             # Processes.
