@@ -1,9 +1,10 @@
-from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Http.Request import Request
-from vendor.pywf.Validation.Validator import Validator
-from vendor.pywf.Language.Lang import Lang
+from ..Exceptions.Http.ValidationException import ValidationException
+from ..Helpers.Dict import Dict
+from ..Http.Request import Request
+from ..Validation.Validator import Validator
+from ..Language.Lang import Lang
 
+# App import.
 from App.Kernel import Kernel
 
 

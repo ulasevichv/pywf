@@ -1,9 +1,9 @@
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Renderers.BaseRenderer import BaseRenderer
+from ..Helpers.Dict import Dict
+from .BaseRenderer import BaseRenderer
 
 
 class PlainTextRenderer(BaseRenderer):
-    contentType = 'text/plain;charset=utf-8'
+    contentType: str = 'text/plain;charset=utf-8'
 
     @classmethod
     def render(cls, data):

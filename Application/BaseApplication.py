@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from vendor.pywf.Helpers.Dict import Dict
+from ..Helpers.Dict import Dict
 
 
 class BaseApplication:
@@ -15,7 +15,7 @@ class BaseApplication:
         if envFileConversionRules is None:
             envFileConversionRules = Dict({})
 
-        from vendor.pywf.Helpers.MethodsForFileSystem import MethodsForFileSystem
+        from ..Helpers.MethodsForFileSystem import MethodsForFileSystem
         cls.envFile = MethodsForFileSystem.readEnvFile(cls.rootPath + '/' + '.env', envFileConversionRules)
 
     @classmethod

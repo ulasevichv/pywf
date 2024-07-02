@@ -1,4 +1,4 @@
-from vendor.pywf.Exceptions.BaseFrameworkException import BaseFrameworkException
+from ..BaseFrameworkException import BaseFrameworkException
 
 
 class BaseDBException(BaseFrameworkException):

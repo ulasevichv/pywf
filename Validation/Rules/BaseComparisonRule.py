@@ -1,9 +1,9 @@
 from abc import abstractmethod
 
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Rules.BaseRule import BaseRule
+from ...Helpers.Dict import Dict
+from ...Helpers.Log import Log
+from ...Language.Lang import Lang
+from .BaseRule import BaseRule
 
 
 class BaseComparisonRule(BaseRule):
@@ -32,8 +32,8 @@ class BaseComparisonRule(BaseRule):
         # Both comparing parameters must be of the same type.
         bothParamsTypeRuleName = cls._detectComparableTypeRuleName(firstParamName, allParamRules)
 
-        from vendor.pywf.Validation.Rules.BaseTypeRule import BaseTypeRule
-        from vendor.pywf.Validation.Validator import Validator
+        from .BaseTypeRule import BaseTypeRule
+        from ...Validation.Validator import Validator
 
         bothParamsTypeRuleClass = Validator.getRuleClassByName(bothParamsTypeRuleName)  # type: type[BaseTypeRule]
 

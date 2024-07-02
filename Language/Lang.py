@@ -1,5 +1,5 @@
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
+from ..Helpers.Dict import Dict
+from ..Helpers.Log import Log
 
 
 class Lang:
@@ -10,6 +10,7 @@ class Lang:
     @classmethod
     def getCurrentLanguageName(cls):
         if cls._currentLanguage is None:
+            # App import.
             from App.Kernel import Kernel
             cls._currentLanguage = Kernel.getApp().envFile.get('LANG').upper()
         return cls._currentLanguage
@@ -19,18 +20,19 @@ class Lang:
         if cls._languageClass is None:
             langName = cls.getCurrentLanguageName()
 
-            import importlib
-            import sys
-            import inspect
+            from importlib import import_module
+            from inspect import (getmembers as inspect_getmembers, isclass as inspect_isclass)
+            from sys import modules as sys_modules
 
+            # App import.
             from App.Kernel import Kernel
 
             try:
-                res = importlib.import_module(Kernel.getApp().languageFilesRelativeDirPath + '.' + langName)
+                res = import_module(Kernel.getApp().languageFilesRelativeDirPath + '.' + langName)
             except ModuleNotFoundError as ex:
                 raise Exception('Language file is absent: ' + str(ex))
 
-            clsMembers = inspect.getmembers(sys.modules[res.__name__], inspect.isclass)
+            clsMembers = inspect_getmembers(sys_modules[res.__name__], inspect_isclass)
             for clsInfo in clsMembers:
                 if clsInfo[0] != langName:
                     continue

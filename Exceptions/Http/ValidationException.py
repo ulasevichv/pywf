@@ -1,5 +1,5 @@
-from vendor.pywf.Exceptions.Http.UnprocessableEntityException import UnprocessableEntityException
-from vendor.pywf.Helpers.Dict import Dict
+from .UnprocessableEntityException import UnprocessableEntityException
+from ...Helpers.Dict import Dict
 
 
 class ValidationException(UnprocessableEntityException):
@@ -8,8 +8,8 @@ class ValidationException(UnprocessableEntityException):
 
         if len(args) == 1 and isinstance(args[0], Dict):
             self.errorBag = args[0]
-            # Import is here because on top level it lead to an error.
-            from vendor.pywf.Language.Lang import Lang
+            # Import is here because on top level it leads to an error.
+            from ...Language.Lang import Lang
             super().__init__(Lang.msg('VALIDATION.FAILURE'))
             return
         elif len(args) > 1:

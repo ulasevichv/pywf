@@ -1,5 +1,5 @@
-from vendor.pywf.Controllers.BaseController import BaseController
-from vendor.pywf.Renderers.HtmlRenderer import HtmlRenderer
+from ..Controllers.BaseController import BaseController
+from ..Renderers.HtmlRenderer import HtmlRenderer
 
 
 class BaseWebController(BaseController):

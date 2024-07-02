@@ -1,17 +1,16 @@
-import datetime
+from datetime import datetime
 
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
+from ..Helpers.Dict import Dict
+from ..Helpers.Log import Log
 
 
 class MethodsForStrings:
     @classmethod
     def replace(cls, sources: [str], replacements: [str], s: str) -> str:
-        from vendor.pywf.Language.Lang import Lang
-
         if (len(sources) != len(replacements)
                 | len(sources) == 0
                 | len(replacements) == 0):
+            from ..Language.Lang import Lang
             raise Exception(Lang.msg('ARGUMENT.INVALID_ARGUMENT'))
 
         for i, source in enumerate(sources):
@@ -25,10 +24,9 @@ class MethodsForStrings:
         return s.replace('"', '\\"')
 
     @classmethod
-    def escapeForSQLInsertOrUpdate(cls, value: str | int | float | complex | datetime.datetime | None):
-        from vendor.pywf.Language.Lang import Lang
-
-        if type(value) not in (str, int, float, complex, datetime.datetime) and value is not None:
+    def escapeForSQLInsertOrUpdate(cls, value: str | int | float | complex | datetime | None):
+        if type(value) not in (str, int, float, complex, datetime) and value is not None:
+            from ..Language.Lang import Lang
             raise Exception(Lang.msg('ARGUMENT.INVALID_TYPE', type(value).__name__))
 
         if value is None:
@@ -39,9 +37,10 @@ class MethodsForStrings:
                 return '"' + cls.escapeQuotes(value) + '"'
             case int() | float() | complex():
                 return str(value)
-            case datetime.datetime():
+            case datetime():
                 return '"' + value.strftime('%Y-%m-%d %H:%M:%S') + '"'
             case _:
+                from ..Language.Lang import Lang
                 raise Exception(Lang.msg('ARGUMENT.INVALID_TYPE', type(value).__name__))
 
     @classmethod
@@ -88,7 +87,7 @@ class MethodsForStrings:
         :param symbolSet: str | None Set of symbols to use.
         :return: str Generated random string.
         """
-        import random
+        from random import randint
 
         match symbolSet:
             case 'upper':
@@ -106,7 +105,7 @@ class MethodsForStrings:
 
         feed = []
         for n in range(0, stringLength):
-            index = random.randint(0, numChars - 1)
+            index = randint(0, numChars - 1)
             feed.append(chars[index:index+1])
 
         return ''.join(feed)
@@ -121,9 +120,9 @@ class MethodsForStrings:
         if strLen > requiredLength:
             return s[0:requiredLength]
 
-        import math
+        from math import floor
 
-        indentLength = math.floor((requiredLength - strLen) / 2) if alignment == 'center' else requiredLength - strLen
+        indentLength = floor((requiredLength - strLen) / 2) if alignment == 'center' else requiredLength - strLen
 
         indentFeed = []
         for i in range(0, indentLength):

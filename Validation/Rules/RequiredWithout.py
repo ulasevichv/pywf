@@ -1,7 +1,7 @@
-from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Rules.BaseRule import BaseRule
+from ...Exceptions.Http.ValidationException import ValidationException
+from ...Helpers.Dict import Dict
+from ...Language.Lang import Lang
+from .BaseRule import BaseRule
 
 
 class RequiredWithout(BaseRule):
@@ -16,10 +16,12 @@ class RequiredWithout(BaseRule):
 
         if paramValue is None:
             allRelatedParamsAreAbsent = True
+
             for relatedParamName in relatedParamNames:
                 if data.get(relatedParamName) is not None:
                     allRelatedParamsAreAbsent = False
                     break
+
             if allRelatedParamsAreAbsent:
                 raise ValidationException(Dict({
                     alteredParamName: Lang.msg('VALIDATION.REQUIRED_WITHOUT', alteredParamName, ', '.join([f'`{relatedParamName}`' for relatedParamName in relatedParamNames]))

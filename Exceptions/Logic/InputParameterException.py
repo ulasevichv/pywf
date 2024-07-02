@@ -1,4 +1,4 @@
-from vendor.pywf.Exceptions.Logic.BaseLogicException import BaseLogicException
+from .BaseLogicException import BaseLogicException
 
 
 class InputParameterException(BaseLogicException):

@@ -1,15 +1,13 @@
-import traceback
-
-from vendor.pywf.Exceptions.Http.ForbiddenException import ForbiddenException
-from vendor.pywf.Exceptions.Http.NotFoundException import NotFoundException
-from vendor.pywf.Exceptions.Http.UnprocessableEntityException import UnprocessableEntityException
-from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
+from ..Exceptions.Http.ForbiddenException import ForbiddenException
+from ..Exceptions.Http.NotFoundException import NotFoundException
+from ..Exceptions.Http.UnprocessableEntityException import UnprocessableEntityException
+from ..Exceptions.Http.ValidationException import ValidationException
+from ..Helpers.Dict import Dict
+from ..Helpers.Log import Log
 
 
 class BaseRenderer:
-    contentType = None
+    contentType: str = None
 
     @classmethod
     def render(cls, data):
@@ -40,7 +38,9 @@ class BaseRenderer:
                     'validationErrors': ex.errorBag
                 })
             case _:
-                Log.error(''.join(traceback.format_exception(ex)))
+                from traceback import format_exception
+
+                Log.error(''.join(format_exception(ex)))
 
                 status = '500 Internal Server Error'
                 errorDict = Dict({

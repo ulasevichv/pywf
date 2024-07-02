@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
+from ..Helpers.MethodsForStrings import MethodsForStrings
 
 
 class MethodsForDateTime:
@@ -10,8 +10,8 @@ class MethodsForDateTime:
 
     @classmethod
     def getCurrentTimestamp(cls) -> int:
-        import math
-        return math.floor(datetime.now(timezone.utc).timestamp())
+        from math import floor
+        return floor(datetime.now(timezone.utc).timestamp())
 
     @classmethod
     def getCurrentTimestampStr(cls) -> str:

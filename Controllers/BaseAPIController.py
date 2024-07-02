@@ -1,8 +1,8 @@
-from vendor.pywf.Controllers.BaseController import BaseController
-from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Http.Request import Request
-from vendor.pywf.Renderers.JsonRenderer import JsonRenderer
-from vendor.pywf.Renderers.HtmlRenderer import HtmlRenderer
+from ..Controllers.BaseController import BaseController
+from ..Helpers.Log import Log
+from ..Http.Request import Request
+from ..Renderers.JsonRenderer import JsonRenderer
+from ..Renderers.HtmlRenderer import HtmlRenderer
 
 
 class BaseAPIController(BaseController):

@@ -30,13 +30,13 @@ class MethodsForMath:
         except ValueError:
             pass
 
-        from vendor.pywf.Language.Lang import Lang
+        from ..Language.Lang import Lang
         raise ValueError(Lang.msg('ARGUMENT.NOT_NUMERIC'))
 
     @classmethod
     def splitIntervalIntoGroups(cls, startIndex: int, endIndex: int, groupSize: int) -> list[list[int]]:
         if endIndex <= startIndex or groupSize < 1:
-            from vendor.pywf.Language.Lang import Lang
+            from ..Language.Lang import Lang
             raise ValueError(Lang.msg('ARGUMENT.INVALID_ARGUMENT'))
 
         length = endIndex - startIndex + 1

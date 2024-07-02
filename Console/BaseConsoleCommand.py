@@ -1,8 +1,8 @@
 from abc import abstractmethod
 
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Language.Lang import Lang
+from ..Helpers.Dict import Dict
+from ..Helpers.Log import Log
+from ..Language.Lang import Lang
 
 
 class BaseConsoleCommand:
@@ -44,8 +44,8 @@ class BaseConsoleCommand:
 
     @classmethod
     def getAllArguments(cls) -> list[str]:
-        import sys
-        return sys.argv[1:]
+        from sys import argv as sys_argv
+        return sys_argv[1:]
 
     @classmethod
     def parseParameters(cls):

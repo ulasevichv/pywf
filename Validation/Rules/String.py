@@ -1,10 +1,10 @@
 from typing import Any
 
-from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Exceptions.Logic.InputParameterException import InputParameterException
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Rules.BaseTypeRule import BaseTypeRule
+from ...Exceptions.Http.ValidationException import ValidationException
+from ...Exceptions.Logic.InputParameterException import InputParameterException
+from ...Helpers.Dict import Dict
+from ...Language.Lang import Lang
+from .BaseTypeRule import BaseTypeRule
 
 
 class String(BaseTypeRule):

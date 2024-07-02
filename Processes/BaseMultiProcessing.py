@@ -1,10 +1,10 @@
-from subprocess import Popen
+# from subprocess import Popen
 from time import sleep
 
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Helpers.Redis import Redis
+from ..Helpers.Dict import Dict
+from ..Helpers.Log import Log
+from ..Language.Lang import Lang
+from ..Helpers.Redis import Redis
 
 
 class BaseMultiProcessing:

@@ -1,4 +1,4 @@
-from vendor.pywf.Exceptions.DB.BaseDBException import BaseDBException
+from .BaseDBException import BaseDBException
 
 
 class ModelNotFoundException(BaseDBException):

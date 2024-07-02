@@ -1,11 +1,11 @@
 from typing import Any
 
-from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Exceptions.Logic.InputParameterException import InputParameterException
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
-from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Rules.BaseTypeRule import BaseTypeRule
+from ...Exceptions.Http.ValidationException import ValidationException
+from ...Exceptions.Logic.InputParameterException import InputParameterException
+from ...Helpers.Dict import Dict
+from ...Helpers.MethodsForStrings import MethodsForStrings
+from ...Language.Lang import Lang
+from .BaseTypeRule import BaseTypeRule
 
 
 class Email(BaseTypeRule):
@@ -31,9 +31,9 @@ class Email(BaseTypeRule):
         if not isinstance(value, str):
             raise InputParameterException(Lang.msg('VALIDATION.STRING', paramName))
 
-        import re
+        from re import findall as re_match
 
-        if re.match(MethodsForStrings.getEmailRegEx(), value) is None:
+        if re_match(MethodsForStrings.getEmailRegEx(), value) is None:
             raise InputParameterException(Lang.msg('VALIDATION.EMAIL', paramName))
 
         return value

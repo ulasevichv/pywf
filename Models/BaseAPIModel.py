@@ -1,9 +1,9 @@
-from vendor.pywf.Exceptions.DB.ModelNotFoundException import ModelNotFoundException
-from vendor.pywf.Exceptions.Http.NotFoundException import NotFoundException
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Http.Request import Request
-from vendor.pywf.Models.BaseDBModel import BaseDBModel
-from vendor.pywf.Validation.Validator import Validator
+from ..Exceptions.DB.ModelNotFoundException import ModelNotFoundException
+from ..Exceptions.Http.NotFoundException import NotFoundException
+from ..Helpers.Dict import Dict
+from ..Http.Request import Request
+from ..Validation.Validator import Validator
+from .BaseDBModel import BaseDBModel
 
 
 class BaseAPIModel(BaseDBModel):

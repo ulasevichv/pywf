@@ -1,9 +1,9 @@
-from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Http.Request import Request
-from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Rules.BaseRule import BaseRule
-from vendor.pywf.Validation.Rules.BaseTypeRule import BaseTypeRule
+from ..Exceptions.Http.ValidationException import ValidationException
+from ..Helpers.Dict import Dict
+from ..Http.Request import Request
+from ..Language.Lang import Lang
+from .Rules.BaseRule import BaseRule
+from .Rules.BaseTypeRule import BaseTypeRule
 
 
 class Validator:
@@ -27,97 +27,97 @@ class Validator:
             # General presence rules.
 
             case 'sometimes':
-                from vendor.pywf.Validation.Rules.Sometimes import Sometimes
+                from .Rules.Sometimes import Sometimes
                 return Sometimes
             case 'required':
-                from vendor.pywf.Validation.Rules.Required import Required
+                from .Rules.Required import Required
                 return Required
             case 'nullable':
-                from vendor.pywf.Validation.Rules.Nullable import Nullable
+                from .Rules.Nullable import Nullable
                 return Nullable
 
             # Presence rules, depending on other parameters.
 
             case 'forbidden_with':
-                from vendor.pywf.Validation.Rules.ForbiddenWith import ForbiddenWith
+                from .Rules.ForbiddenWith import ForbiddenWith
                 return ForbiddenWith
             case 'required_without':
-                from vendor.pywf.Validation.Rules.RequiredWithout import RequiredWithout
+                from .Rules.RequiredWithout import RequiredWithout
                 return RequiredWithout
             case 'required_mutual_exclude':
-                from vendor.pywf.Validation.Rules.RequiredMutualExclude import RequiredMutualExclude
+                from .Rules.RequiredMutualExclude import RequiredMutualExclude
                 return RequiredMutualExclude
 
             # Type rules.
 
             case 'array':
-                from vendor.pywf.Validation.Rules.Array import Array
+                from .Rules.Array import Array
                 return Array
             case 'bool':
-                from vendor.pywf.Validation.Rules.Boolean import Boolean
+                from .Rules.Boolean import Boolean
                 return Boolean
             case 'date':
-                from vendor.pywf.Validation.Rules.Date import Date
+                from .Rules.Date import Date
                 return Date
             case 'dateRange':
-                from vendor.pywf.Validation.Rules.DateRange import DateRange
+                from .Rules.DateRange import DateRange
                 return DateRange
             case 'dateTime':
-                from vendor.pywf.Validation.Rules.DateTime import DateTime
+                from .Rules.DateTime import DateTime
                 return DateTime
             case 'email':
-                from vendor.pywf.Validation.Rules.Email import Email
+                from .Rules.Email import Email
                 return Email
             case 'int':
-                from vendor.pywf.Validation.Rules.Integer import Integer
+                from .Rules.Integer import Integer
                 return Integer
             case 'numeric':
-                from vendor.pywf.Validation.Rules.Numeric import Numeric
+                from .Rules.Numeric import Numeric
                 return Numeric
             case 'object':
-                from vendor.pywf.Validation.Rules.Object import Object
+                from .Rules.Object import Object
                 return Object
             case 'phone':
-                from vendor.pywf.Validation.Rules.Phone import Phone
+                from .Rules.Phone import Phone
                 return Phone
             case 'str':
-                from vendor.pywf.Validation.Rules.String import String
+                from .Rules.String import String
                 return String
 
             # Limit rules.
 
             case 'enum':
-                from vendor.pywf.Validation.Rules.Enum import Enum
+                from .Rules.Enum import Enum
                 return Enum
             case 'max':
-                from vendor.pywf.Validation.Rules.Max import Max
+                from .Rules.Max import Max
                 return Max
             case 'min':
-                from vendor.pywf.Validation.Rules.Min import Min
+                from .Rules.Min import Min
                 return Min
 
             # Comparison rules.
 
             case 'greater_than':
-                from vendor.pywf.Validation.Rules.GreaterThan import GreaterThan
+                from .Rules.GreaterThan import GreaterThan
                 return GreaterThan
             case 'greater_than_or_equal':
-                from vendor.pywf.Validation.Rules.GreaterThanOrEqual import GreaterThanOrEqual
+                from .Rules.GreaterThanOrEqual import GreaterThanOrEqual
                 return GreaterThanOrEqual
             case 'less_than':
-                from vendor.pywf.Validation.Rules.LessThan import LessThan
+                from .Rules.LessThan import LessThan
                 return LessThan
             case 'less_than_or_equal':
-                from vendor.pywf.Validation.Rules.LessThanOrEqual import LessThanOrEqual
+                from .Rules.LessThanOrEqual import LessThanOrEqual
                 return LessThanOrEqual
 
             # Unique rules.
 
             case 'unique':
-                from vendor.pywf.Validation.Rules.Unique import Unique
+                from .Rules.Unique import Unique
                 return Unique
             case 'unique_except':
-                from vendor.pywf.Validation.Rules.UniqueExcept import UniqueExcept
+                from .Rules.UniqueExcept import UniqueExcept
                 return UniqueExcept
 
             case _:

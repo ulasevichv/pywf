@@ -1,10 +1,11 @@
-import re
-from vendor.pywf.Database.DB import DB
-from vendor.pywf.Database.Expression import Expression
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
-from vendor.pywf.Language.Lang import Lang
+from re import split as re_split
+
+from ..Database.DB import DB
+from ..Database.Expression import Expression
+from ..Helpers.Dict import Dict
+from ..Helpers.Log import Log
+from ..Helpers.MethodsForStrings import MethodsForStrings
+from ..Language.Lang import Lang
 
 
 class Query:
@@ -51,7 +52,7 @@ class Query:
 
             # Splitting field name by "AS".
 
-            fieldNameParts = re.split(' as | AS ', outputFieldName)
+            fieldNameParts = re_split(' as | AS ', outputFieldName)
 
             if len(fieldNameParts) > 2:
                 raise Exception(Lang.msg('DB.INVALID_FIELD_NAME') + ': ' + outputFieldName + '.'

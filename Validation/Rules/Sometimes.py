@@ -1,5 +1,5 @@
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Validation.Rules.BaseRule import BaseRule
+from ...Helpers.Dict import Dict
+from .BaseRule import BaseRule
 
 
 class Sometimes(BaseRule):

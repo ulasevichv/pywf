@@ -1,17 +1,15 @@
-from os import sep
+from os import sep as os_sep
 from pathlib import Path
-import re
+from re import findall as re_findall
 
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
+from ..Helpers.Dict import Dict
+from ..Helpers.MethodsForStrings import MethodsForStrings
 
 
 class MethodsForFileSystem:
     @classmethod
     def relativePathToFull(cls, fileRelativePath: str):
-        # from vendor.pywf.Application.BaseWebApplication import BaseWebApplication
-        # rootAppPath = Path(BaseWebApplication.app.rootPath)
-
+        # App import.
         from App.Kernel import Kernel
 
         rootAppPath = Path(Kernel.getApp().rootPath)
@@ -26,7 +24,7 @@ class MethodsForFileSystem:
 
         fullFilePath = cls.relativePathToFull(fileRelativePath)
 
-        Path(sep.join(str(fullFilePath).split(sep)[:-1])).mkdir(parents=True, exist_ok=True)
+        Path(os_sep.join(str(fullFilePath).split(os_sep)[:-1])).mkdir(parents=True, exist_ok=True)
 
         f = open(fullFilePath, mode)
         f.write(data + "\n")
@@ -63,7 +61,7 @@ class MethodsForFileSystem:
             if line[:1] == '#' or line[:1] == ';':
                 continue
 
-            parts = re.findall(r'^[ ]*(\w*)[ ]*=[ ]*(.*)$', line)
+            parts = re_findall(r'^[ ]*(\w*)[ ]*=[ ]*(.*)$', line)
 
             if len(parts) != 1:
                 raise Exception('Invalid .env-file structure at line ' + str(i))

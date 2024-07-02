@@ -1,11 +1,12 @@
 from pathlib import Path
-import re
-import urllib.parse
+from re import (sub as re_sub,
+                match as re_match)
+from urllib import parse as urllib_parse
 
-from vendor.pywf.Exceptions.Http.NotFoundException import NotFoundException
-from vendor.pywf.Application.BaseApplication import BaseApplication
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Http.Request import Request
+from ..Exceptions.Http.NotFoundException import NotFoundException
+from ..Application.BaseApplication import BaseApplication
+from ..Helpers.Dict import Dict
+from ..Http.Request import Request
 
 
 class BaseWebApplication(BaseApplication):
@@ -26,7 +27,7 @@ class BaseWebApplication(BaseApplication):
         queryString = self.request.URI
         if queryString[0] == '/':
             queryString = queryString[1:]
-        parsedQueryString = urllib.parse.urlparse(queryString)
+        parsedQueryString = urllib_parse.urlparse(queryString)
 
         self.readAllRoutes('Routes')
 
@@ -43,13 +44,13 @@ class BaseWebApplication(BaseApplication):
             isApiRoute = (len(queryString) >= 4 and queryString[0:4] == 'api/')
 
             if isApiRoute:
-                from vendor.pywf.Controllers.BaseAPIController import BaseAPIController
+                from ..Controllers.BaseAPIController import BaseAPIController
                 return BaseAPIController.outputException(NotFoundException('Invalid route'))
             else:
-                from vendor.pywf.Controllers.BaseWebController import BaseWebController
+                from ..Controllers.BaseWebController import BaseWebController
                 return BaseWebController.outputException(NotFoundException())
 
-        from vendor.pywf.Controllers.BaseController import BaseController
+        from ..Controllers.BaseController import BaseController
 
         controllerClass = matchingRoute['method'].__self__  # type: BaseController
 
@@ -68,7 +69,7 @@ class BaseWebApplication(BaseApplication):
     @classmethod
     def getRouteRegExStr(cls, routeUri: str) -> str:
         return ('^'
-                + re.sub('{' + cls.getUrlParameterRegExStr() + '}', '(' + cls.getUrlParameterRegExStr() + ')', routeUri)
+                + re_sub('{' + cls.getUrlParameterRegExStr() + '}', '(' + cls.getUrlParameterRegExStr() + ')', routeUri)
                 + '$')
 
     @classmethod
@@ -85,6 +86,6 @@ class BaseWebApplication(BaseApplication):
         routePath = cls.stripTrailingSlash(route['uri'])
         queryPath = cls.stripTrailingSlash(parsedQueryString)
 
-        match = re.match(cls.getRouteRegExStr(routePath), queryPath)
+        match = re_match(cls.getRouteRegExStr(routePath), queryPath)
 
         return match is not None

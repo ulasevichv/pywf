@@ -1,5 +1,5 @@
-from os import sep
-from datetime import datetime, timezone
+from datetime import (datetime, timezone)
+from os import sep as os_sep
 
 
 class Log:
@@ -25,7 +25,7 @@ class Log:
             case cls.LEVEL_ERROR:
                 return 'error'
             case _:
-                from vendor.pywf.Language.Lang import Lang
+                from ..Language.Lang import Lang
                 raise Exception(Lang.msg('ARGUMENT.INVALID_ENUM_VALUE', level))
 
     @classmethod
@@ -34,11 +34,10 @@ class Log:
             data = str(data)
 
         logFileName = 'log-' + datetime.now(timezone.utc).strftime('%Y-%m-%d') + '.log'
-        logFileRelativePath = sep.join(['storage', 'logs', logFileName])
+        logFileRelativePath = os_sep.join(['storage', 'logs', logFileName])
         data = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S') + ' [' + cls.levelToStr(level).upper() + ']: ' + data + "\n"
 
-        from vendor.pywf.Helpers.MethodsForFileSystem import MethodsForFileSystem
-
+        from ..Helpers.MethodsForFileSystem import MethodsForFileSystem
         MethodsForFileSystem.writeToFile(logFileRelativePath, data)
 
     @classmethod

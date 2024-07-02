@@ -1,9 +1,10 @@
 from abc import abstractmethod
-from vendor.pywf.Http.Request import Request
+
+from ...Http.Request import Request
 
 
 class BaseMiddleware:
     @classmethod
     @abstractmethod
-    def handle(cls, request: Request):
+    def handle(cls, request: Request) -> None:
         pass

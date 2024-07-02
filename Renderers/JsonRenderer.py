@@ -1,10 +1,11 @@
-import json
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Renderers.BaseRenderer import BaseRenderer
+from json import dumps as json_dumps
+
+from ..Helpers.Dict import Dict
+from .BaseRenderer import BaseRenderer
 
 
 class JsonRenderer(BaseRenderer):
-    contentType = 'application/json'
+    contentType: str = 'application/json'
 
     @classmethod
     def render(cls, data):
@@ -16,7 +17,7 @@ class JsonRenderer(BaseRenderer):
             'headers': [
                 ('Content-type', cls.contentType),
             ],
-            'body': json.dumps(data)
+            'body': json_dumps(data)
         })
 
     @classmethod
@@ -28,5 +29,5 @@ class JsonRenderer(BaseRenderer):
             'headers': [
                 ('Content-type', cls.contentType),
             ],
-            'body': json.dumps(result.errorDict)
+            'body': json_dumps(result.errorDict)
         })

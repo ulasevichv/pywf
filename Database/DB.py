@@ -1,8 +1,11 @@
+from ..Helpers.APIHelper import APIHelper
+from ..Helpers.Dict import Dict
+from ..Helpers.Log import Log
+from ..Helpers.MethodsForStrings import MethodsForStrings
+from ..Language.Lang import Lang
+
+# App import.
 from App.Kernel import Kernel
-from vendor.pywf.Helpers.APIHelper import APIHelper
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
-from vendor.pywf.Language.Lang import Lang
 
 
 class DB:
@@ -29,7 +32,7 @@ class DB:
 
     @classmethod
     def query(cls):
-        from vendor.pywf.Database.Query import Query
+        from ..Database.Query import Query
         return Query()
 
     @classmethod
@@ -38,7 +41,7 @@ class DB:
 
     @classmethod
     def raw(cls, value):
-        from vendor.pywf.Database.Expression import Expression
+        from ..Database.Expression import Expression
         return Expression(value)
 
     @classmethod
@@ -78,7 +81,7 @@ class DB:
                             query.orWhere(fil.dbField, 'LIKE', '%' + MethodsForStrings.escapeForSQLLike(value) + '%')
 
                 case APIHelper.FILTER_MATCH_TYPE_DATE:
-                    from vendor.pywf.Validation.Rules.Date import Date
+                    from ..Validation.Rules.Date import Date
 
                     startDT = endDT = None
                     try:
@@ -92,7 +95,7 @@ class DB:
                         query.where(fil.dbField, '<=', endDT.strftime('%Y-%m-%d %H:%M:%S'))
 
                 case APIHelper.FILTER_MATCH_TYPE_DATE_RANGE:
-                    from vendor.pywf.Validation.Rules.DateRange import DateRange
+                    from ..Validation.Rules.DateRange import DateRange
 
                     startDT = endDT = None
                     try:

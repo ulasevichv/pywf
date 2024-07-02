@@ -2,9 +2,9 @@ from abc import abstractmethod
 from typing import Any
 from typing import Self
 
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Language.Lang import Lang
+from ...Helpers.Dict import Dict
+from ...Helpers.Log import Log
+from ...Language.Lang import Lang
 
 
 class BaseRule:
@@ -30,9 +30,9 @@ class BaseRule:
 
     @classmethod
     def isStrByRules(cls, rules: list[str | Self]) -> bool:
-        from vendor.pywf.Validation.Rules.String import String
-        from vendor.pywf.Validation.Rules.Email import Email
-        from vendor.pywf.Validation.Rules.Phone import Phone
+        from .String import String
+        from .Email import Email
+        from .Phone import Phone
 
         allStrRuleNames = [String.name, Email.name, Phone.name]
 

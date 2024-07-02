@@ -1,4 +1,4 @@
-from vendor.pywf.Exceptions.Http.BaseHttpException import BaseHttpException
+from .BaseHttpException import BaseHttpException
 
 
 class ForbiddenException(BaseHttpException):

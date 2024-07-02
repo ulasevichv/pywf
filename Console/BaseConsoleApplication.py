@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from vendor.pywf.Application.BaseApplication import BaseApplication
-from vendor.pywf.Console.BaseConsoleCommand import BaseConsoleCommand
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Language.Lang import Lang
+from ..Application.BaseApplication import BaseApplication
+from ..Console.BaseConsoleCommand import BaseConsoleCommand
+from ..Helpers.Dict import Dict
+from ..Helpers.Log import Log
+from ..Language.Lang import Lang
 
 
 class BaseConsoleApplication(BaseApplication):

@@ -1,12 +1,12 @@
-from vendor.pywf.Exceptions.Http.ForbiddenException import ForbiddenException
-from vendor.pywf.Http.Middleware.BaseMiddleware import BaseMiddleware
-from vendor.pywf.Http.Request import Request
-from vendor.pywf.Language.Lang import Lang
+from ...Exceptions.Http.ForbiddenException import ForbiddenException
+from ...Http.Request import Request
+from ...Language.Lang import Lang
+from .BaseMiddleware import BaseMiddleware
 
 
 class CheckJson(BaseMiddleware):
     @classmethod
-    def handle(cls, request: Request):
+    def handle(cls, request: Request) -> None:
         requiredContentType = 'application/json'
         requestContentType = request.getContentType()
 

@@ -1,10 +1,10 @@
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Renderers.BaseRenderer import BaseRenderer
-from vendor.pywf.Renderers.PlainTextRenderer import PlainTextRenderer
+from ..Helpers.Dict import Dict
+from ..Renderers.PlainTextRenderer import PlainTextRenderer
+from .BaseRenderer import BaseRenderer
 
 
 class HtmlRenderer(BaseRenderer):
-    contentType = 'text/html'
+    contentType: str = 'text/html'
 
     @classmethod
     def render(cls, data):

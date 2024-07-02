@@ -1,4 +1,4 @@
-from vendor.pywf.Helpers.Dict import Dict
+from ..Helpers.Dict import Dict
 
 
 class BaseEN:

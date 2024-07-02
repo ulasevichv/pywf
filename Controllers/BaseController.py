@@ -1,7 +1,7 @@
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Http.Middleware.BaseMiddleware import BaseMiddleware
-from vendor.pywf.Http.Request import Request
+from ..Helpers.Dict import Dict
+from ..Helpers.Log import Log
+from ..Http.Middleware.BaseMiddleware import BaseMiddleware
+from ..Http.Request import Request
 
 
 class BaseController:

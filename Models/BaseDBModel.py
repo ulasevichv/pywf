@@ -1,10 +1,10 @@
 from typing import Self
 
-from vendor.pywf.Database.DB import DB
-from vendor.pywf.Exceptions.DB.ModelNotFoundException import ModelNotFoundException
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.MethodsForDateTime import MethodsForDateTime
-from vendor.pywf.Language.Lang import Lang
+from ..Database.DB import DB
+from ..Exceptions.DB.ModelNotFoundException import ModelNotFoundException
+from ..Helpers.Dict import Dict
+from ..Helpers.MethodsForDateTime import MethodsForDateTime
+from ..Language.Lang import Lang
 
 
 class BaseDBModel(Dict):

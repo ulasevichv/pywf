@@ -1,7 +1,7 @@
-from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Rules.BaseComparisonRule import BaseComparisonRule
+from ...Exceptions.Http.ValidationException import ValidationException
+from ...Helpers.Dict import Dict
+from ...Language.Lang import Lang
+from .BaseComparisonRule import BaseComparisonRule
 
 
 class GreaterThanOrEqual(BaseComparisonRule):

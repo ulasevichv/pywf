@@ -1,12 +1,12 @@
-from datetime import datetime, timezone
+from datetime import (datetime, timezone)
 from typing import Any
 
-from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Exceptions.Logic.InputParameterException import InputParameterException
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.MethodsForStrings import MethodsForStrings
-from vendor.pywf.Language.Lang import Lang
-from vendor.pywf.Validation.Rules.BaseTypeRule import BaseTypeRule
+from ...Exceptions.Http.ValidationException import ValidationException
+from ...Exceptions.Logic.InputParameterException import InputParameterException
+from ...Helpers.Dict import Dict
+from ...Helpers.MethodsForStrings import MethodsForStrings
+from ...Language.Lang import Lang
+from .BaseTypeRule import BaseTypeRule
 
 
 class DateRange(BaseTypeRule):
@@ -32,28 +32,28 @@ class DateRange(BaseTypeRule):
         if not isinstance(value, str):
             raise InputParameterException(Lang.msg('VALIDATION.STRING', paramName))
 
-        import re
+        from re import findall as re_findall
 
-        matches = re.findall(MethodsForStrings.getDateRegEx(), value)
+        matches = re_findall(MethodsForStrings.getDateRegEx(), value)
         if len(matches) != 0:
             dateStr = matches[0][0]
             startDT = datetime.strptime(dateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc)
             endDT = startDT.replace(hour=23, minute=59, second=59)
             return [startDT, endDT]
 
-        matches = re.findall(MethodsForStrings.getDateRangeStartOnlyRegEx(), value)
+        matches = re_findall(MethodsForStrings.getDateRangeStartOnlyRegEx(), value)
         if len(matches) != 0:
             dateStr = matches[0][0]
             startDT = datetime.strptime(dateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc)
             return [startDT, None]
 
-        matches = re.findall(MethodsForStrings.getDateRangeEndOnlyRegEx(), value)
+        matches = re_findall(MethodsForStrings.getDateRangeEndOnlyRegEx(), value)
         if len(matches) != 0:
             dateStr = matches[0][0]
             endDT = datetime.strptime(dateStr, '%Y-%m-%d').replace(tzinfo=timezone.utc).replace(hour=23, minute=59, second=59)
             return [None, endDT]
 
-        matches = re.findall(MethodsForStrings.getDateRangeBothRegEx(), value)
+        matches = re_findall(MethodsForStrings.getDateRangeBothRegEx(), value)
         if len(matches) != 0:
             startDateStr = matches[0][0]
             endDateStr = matches[0][3]

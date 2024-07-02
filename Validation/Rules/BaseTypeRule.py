@@ -1,9 +1,9 @@
 from abc import abstractmethod
 from typing import Any
 
-from vendor.pywf.Helpers.Dict import Dict
-from vendor.pywf.Helpers.Log import Log
-from vendor.pywf.Validation.Rules.BaseRule import BaseRule
+from ...Helpers.Dict import Dict
+from ...Helpers.Log import Log
+from .BaseRule import BaseRule
 
 
 class BaseTypeRule(BaseRule):

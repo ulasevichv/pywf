@@ -1,13 +1,13 @@
-import json
-from json import JSONDecodeError
-import re
+from json import (loads as json_loads, JSONDecodeError)
+from re import findall as re_findall
 
-from vendor.pywf.Exceptions.Http.ValidationException import ValidationException
-from vendor.pywf.Helpers.Dict import Dict
+from ..Exceptions.Http.ValidationException import ValidationException
+from ..Helpers.Dict import Dict
 
 
 class Request(Dict):
     def __init__(self):
+        # App import.
         from App.Kernel import Kernel
 
         app = Kernel.getApp()
@@ -106,16 +106,17 @@ class Request(Dict):
         return self.headers[name]
 
     def collectUrlParams(self, matchingRoutePath, queryPath):
+        # App import.
         from App.Kernel import Kernel
         app = Kernel.getApp()
 
-        expectedParameterNames = re.findall('{' + app.getUrlParameterRegExStr() + '}', matchingRoutePath)
+        expectedParameterNames = re_findall('{' + app.getUrlParameterRegExStr() + '}', matchingRoutePath)
 
         if len(expectedParameterNames) == 0:
             self.urlParams = []
             return
 
-        values = re.findall(app.getRouteRegExStr(matchingRoutePath), queryPath)
+        values = re_findall(app.getRouteRegExStr(matchingRoutePath), queryPath)
         if len(values) == 0:
             self.urlParams = []
             return
@@ -132,6 +133,7 @@ class Request(Dict):
         return self.headers['Content-Type'] if 'Content-Type' in self.headers.keys() else None
 
     def processBody(self):
+        # App import.
         from App.Kernel import Kernel
         app = Kernel.getApp()
 
@@ -140,7 +142,7 @@ class Request(Dict):
         if len(rawBody) != 0:
             try:
                 bodyStr = str(rawBody, 'utf-8')
-                decodedBody = json.loads(bodyStr)
+                decodedBody = json_loads(bodyStr)
                 # Log.info(decodedBody)
                 # Log.info(decodedBody.__class__.__name__)
                 self.body = Dict(decodedBody)
