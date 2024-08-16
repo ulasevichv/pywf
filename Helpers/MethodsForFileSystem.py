@@ -2,8 +2,8 @@ from os import sep as os_sep
 from pathlib import Path
 from re import findall as re_findall
 
-from ..Helpers.Dict import Dict
-from ..Helpers.MethodsForStrings import MethodsForStrings
+from .Dict import Dict
+from .MethodsForStrings import MethodsForStrings
 
 
 class MethodsForFileSystem:

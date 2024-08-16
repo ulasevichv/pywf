@@ -6,17 +6,39 @@ from ..Language.Lang import Lang
 
 
 class BaseConsoleCommand:
-    FORMATS: Dict = Dict({
-        'COLOR_GREEN': '\033[92m',
-        'COLOR_ORANGE': '\033[93m',
-        'COLOR_RED': '\033[91m',
-        'COLOR_BLUE': '\033[94m',
-        'COLOR_CYAN': '\033[96m',
-        'COLOR_PINK': '\033[95m',
+    # https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences?redirectedfrom=MSDN#text-formatting
 
-        'BOLD': '\033[1m',
-        'UNDERLINE': '\033[4m',
-        'END': '\033[0m',
+    FORMAT_CODES: Dict = Dict({
+        'DEFAULT': 0,
+        'BOLD': 1,
+        'UNDERLINE': 4,
+
+        'BG_BLACK': 40,
+        'BG_RED': 41,
+        'BG_GREEN': 42,
+        'BG_YELLOW': 43,
+        'BG_BLUE': 44,
+        'BG_MAGENTA': 45,
+        'BG_CYAN': 46,
+        'BG_WHITE': 47,
+
+        'BG_BRIGHT_BLACK': 100,
+        'BG_BRIGHT_RED': 101,
+        'BG_BRIGHT_GREEN': 102,
+        'BG_BRIGHT_YELLOW': 103,
+        'BG_BRIGHT_BLUE': 104,
+        'BG_BRIGHT_MAGENTA': 105,
+        'BG_BRIGHT_CYAN': 106,
+        'BG_BRIGHT_WHITE': 107,
+
+        'FG_BRIGHT_BLACK': 90,
+        'FG_BRIGHT_RED': 91,
+        'FG_BRIGHT_GREEN': 92,
+        'FG_BRIGHT_YELLOW': 93,
+        'FG_BRIGHT_BLUE': 94,
+        'FG_BRIGHT_MAGENTA': 95,
+        'FG_BRIGHT_CYAN': 96,
+        'FG_BRIGHT_WHITE': 97,
     })
 
     _parsedParams: Dict = None
@@ -27,20 +49,61 @@ class BaseConsoleCommand:
         pass
 
     @classmethod
+    def getApp(cls):
+        from App.Kernel import Kernel
+        return Kernel.getApp()
+
+    # ==================================================
+    # Messages.
+    # ==================================================
+
+    @classmethod
+    def getFormatByCode(cls, code: int) -> str:
+        return '\033[' + str(code) + 'm'
+
+    @classmethod
+    def getDefaultFormat(cls) -> str:
+        return cls.getFormatByCode(cls.FORMAT_CODES.DEFAULT)
+
+    @classmethod
     def info(cls, data) -> None:
         print(str(data))
 
     @classmethod
     def infoGreen(cls, data) -> None:
-        print(f"{cls.FORMATS.COLOR_GREEN}{str(data)}{cls.FORMATS.END}")
+        print(f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_GREEN)}{str(data)}{cls.getDefaultFormat()}")
+
+    @classmethod
+    def infoBlue(cls, data) -> None:
+        print(f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_BLUE)}{str(data)}{cls.getDefaultFormat()}")
 
     @classmethod
     def warning(cls, data) -> None:
-        print(f"{cls.FORMATS.COLOR_ORANGE}{Lang.msg('CONSOLE.WARNING').upper() + ': '}{cls.FORMATS.END}" + str(data))
+        print(f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_YELLOW)}{Lang.msg('CONSOLE.WARNING').upper() + ': '}{cls.getDefaultFormat()}" + str(data))
 
     @classmethod
     def error(cls, data) -> None:
-        print(f"{cls.FORMATS.COLOR_RED}{Lang.msg('CONSOLE.ERROR').upper() + ': '}{cls.FORMATS.END}" + str(data))
+        print(f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_RED)}{Lang.msg('CONSOLE.ERROR').upper() + ': '}{cls.getDefaultFormat()}" + str(data))
+
+    # ==================================================
+    # Prompts.
+    # ==================================================
+
+    @classmethod
+    def coloredInput(cls, prompt: str) -> str:
+        cls.info('')
+        return input(f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_BLUE)}{prompt + ' (y/n)?'}{cls.getDefaultFormat()}" + "\n")
+
+    @classmethod
+    def showUserConfirmationPrompt(cls, prompt: str) -> bool:
+        if cls.coloredInput(prompt) != 'y':
+            cls.info('... cancelled by user')
+            return False
+        return True
+
+    # ==================================================
+    # Arguments and parameters.
+    # ==================================================
 
     @classmethod
     def getAllArguments(cls) -> list[str]:

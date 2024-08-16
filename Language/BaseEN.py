@@ -10,7 +10,7 @@ class BaseEN:
 
             # Arguments.
 
-            'ARGUMENT.INVALID_ARGUMENT': 'Invalid argument passed to a function',
+            'ARGUMENT.INVALID_ARGUMENT': 'Invalid argument passed to a function %s',
             'ARGUMENT.INVALID_ENUM_VALUE': 'Invalid enumeration value: %s',
             'ARGUMENT.INVALID_TYPE': 'Invalid type: %s',
             'ARGUMENT.NOT_NUMERIC': 'Value cannot be converted to any numeric type',

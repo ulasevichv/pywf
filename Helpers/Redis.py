@@ -1,8 +1,8 @@
 from redis import Redis as LibRedis
 
-from ..Helpers.Dict import Dict
-from ..Helpers.Log import Log
-from ..Helpers.MethodsForStrings import MethodsForStrings
+from .Dict import Dict
+from .Log import Log
+from .MethodsForStrings import MethodsForStrings
 
 # App import.
 from App.Kernel import Kernel

@@ -35,7 +35,7 @@ class Log:
 
         logFileName = 'log-' + datetime.now(timezone.utc).strftime('%Y-%m-%d') + '.log'
         logFileRelativePath = os_sep.join(['storage', 'logs', logFileName])
-        data = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S') + ' [' + cls.levelToStr(level).upper() + ']: ' + data + "\n"
+        data = '[' + datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S') + '] ' + cls.levelToStr(level).title() + ': ' + data
 
         from ..Helpers.MethodsForFileSystem import MethodsForFileSystem
         MethodsForFileSystem.writeToFile(logFileRelativePath, data)

@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from ..Helpers.Dict import Dict
-from ..Helpers.Log import Log
+from .Dict import Dict
+from .Log import Log
 
 
 class MethodsForStrings:
@@ -10,8 +10,9 @@ class MethodsForStrings:
         if (len(sources) != len(replacements)
                 | len(sources) == 0
                 | len(replacements) == 0):
+            from inspect import currentframe
             from ..Language.Lang import Lang
-            raise Exception(Lang.msg('ARGUMENT.INVALID_ARGUMENT'))
+            raise ValueError(Lang.msg('ARGUMENT.INVALID_ARGUMENT', cls.__name__ + '.' + currentframe().f_code.co_name + '()'))
 
         for i, source in enumerate(sources):
             replacement = replacements[i]

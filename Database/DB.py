@@ -40,6 +40,22 @@ class DB:
         return not Kernel.getApp().envFile.get('APP_DEBUG')
 
     @classmethod
+    def whetherTableExists(cls, tableName: str) -> bool:
+        databaseName = Kernel.getApp().envFile.get('DB_DATABASE')
+
+        query = (cls.query()
+                 .select(['TABLE_SCHEMA', 'TABLE_TYPE', 'TABLE_NAME'])
+                 .from_('information_schema.TABLES')
+                 .where('TABLE_SCHEMA', databaseName)
+                 .where('TABLE_TYPE', 'BASE TABLE')
+                 .where('TABLE_NAME', tableName)
+                 )
+
+        row = query.getOne()
+
+        return row is not None
+
+    @classmethod
     def raw(cls, value):
         from ..Database.Expression import Expression
         return Expression(value)
@@ -139,7 +155,7 @@ class DB:
 
     @classmethod
     def countAllRowsForQuery(cls, query, countingFieldName='id'):
-        query = (DB.query()
+        query = (cls.query()
                  .select(['COUNT(sourceQuery.' + countingFieldName + ') AS counter'])
                  .fromRaw('(' + query.buildSql(False) + ') AS sourceQuery')
                  )

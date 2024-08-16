@@ -139,3 +139,24 @@ class BaseProcess:
         items = Redis.lrange(queueName, 0, -1)
         Log.info(MethodsForStrings.simpleListToStringTable(items))
         Redis.close()
+
+    @classmethod
+    def logProcessStartedMessage(cls, messageTemplate: str) -> None:
+        from ..Helpers.Log import Log
+        from ..Helpers.MethodsForStrings import MethodsForStrings
+
+        formattedMsg = MethodsForStrings.alignString(' [' + messageTemplate + ' started] ', 120, 'center', '=')
+
+        Log.info(formattedMsg)
+
+    @classmethod
+    def logProcessFinishedMessage(cls, messageTemplate: str, processStartRelativeTimeSec: float) -> None:
+        from time import perf_counter
+        from ..Helpers.Log import Log
+        from ..Helpers.MethodsForStrings import MethodsForStrings
+
+        durationSec = round(perf_counter() - processStartRelativeTimeSec, 3)
+
+        formattedMsg = MethodsForStrings.alignString(' [' + messageTemplate + ' finished (%s sec)] ' % durationSec, 120, 'center', '=')
+
+        Log.info(formattedMsg + "\n")

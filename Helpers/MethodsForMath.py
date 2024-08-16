@@ -1,5 +1,7 @@
 from typing import Any
 
+from .Log import Log
+
 
 class MethodsForMath:
     @classmethod
@@ -35,9 +37,10 @@ class MethodsForMath:
 
     @classmethod
     def splitIntervalIntoGroups(cls, startIndex: int, endIndex: int, groupSize: int) -> list[list[int]]:
-        if endIndex <= startIndex or groupSize < 1:
+        if endIndex < startIndex or groupSize < 1:
+            from inspect import currentframe
             from ..Language.Lang import Lang
-            raise ValueError(Lang.msg('ARGUMENT.INVALID_ARGUMENT'))
+            raise ValueError(Lang.msg('ARGUMENT.INVALID_ARGUMENT', cls.__name__ + '.' + currentframe().f_code.co_name + '()'))
 
         length = endIndex - startIndex + 1
 

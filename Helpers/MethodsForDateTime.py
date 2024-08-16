@@ -1,6 +1,6 @@
-from datetime import datetime, timezone
+from datetime import (datetime, timezone)
 
-from ..Helpers.MethodsForStrings import MethodsForStrings
+from .MethodsForStrings import MethodsForStrings
 
 
 class MethodsForDateTime:
@@ -45,8 +45,19 @@ class MethodsForDateTime:
 
     # Converting UTC timestamp in milliseconds into a DateTime-string with milliseconds.
     @classmethod
-    def utcTimestampMilliSecToStr(cls, timestamp: float | int):
+    def utcTimestampMilliSecToStr(cls, timestamp: float | int) -> str:
         dt = datetime.fromtimestamp(timestamp / 1000, timezone.utc)
         milliseconds = round(dt.microsecond / 1000)
         dtStr = dt.strftime('%Y-%m-%d %H:%M:%S') + '.' + str(milliseconds)
         return MethodsForStrings.alignString(dtStr, 23, 'left', '0')
+
+    # ==================================================
+    # General.
+    # ==================================================
+
+    @classmethod
+    def numSecondsInIntervalAbs(cls, dt1: datetime, dt2: datetime) -> int:
+        import math
+
+        diffDT = dt2 - dt1
+        return abs(math.floor(diffDT.total_seconds()))

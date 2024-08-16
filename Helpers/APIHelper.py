@@ -1,8 +1,8 @@
 from ..Exceptions.Http.ValidationException import ValidationException
-from ..Helpers.Dict import Dict
 from ..Http.Request import Request
 from ..Validation.Validator import Validator
 from ..Language.Lang import Lang
+from .Dict import Dict
 
 # App import.
 from App.Kernel import Kernel
