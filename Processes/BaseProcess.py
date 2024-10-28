@@ -141,22 +141,28 @@ class BaseProcess:
         Redis.close()
 
     @classmethod
-    def logProcessStartedMessage(cls, messageTemplate: str) -> None:
-        from ..Helpers.Log import Log
+    def getProcessStartedMessage(cls, messageTemplate: str) -> str:
         from ..Helpers.MethodsForStrings import MethodsForStrings
 
-        formattedMsg = MethodsForStrings.alignString(' [' + messageTemplate + ' started] ', 120, 'center', '=')
-
-        Log.info(formattedMsg)
+        return MethodsForStrings.alignString(' [' + messageTemplate + ' started] ', 120, 'center', '=')
 
     @classmethod
-    def logProcessFinishedMessage(cls, messageTemplate: str, processStartRelativeTimeSec: float) -> None:
-        from time import perf_counter
+    def logProcessStartedMessage(cls, messageTemplate: str) -> None:
         from ..Helpers.Log import Log
+
+        Log.info(cls.getProcessStartedMessage(messageTemplate))
+
+    @classmethod
+    def getProcessFinishedMessage(cls, messageTemplate: str, processStartRelativeTimeSec: float) -> str:
+        from time import perf_counter
         from ..Helpers.MethodsForStrings import MethodsForStrings
 
         durationSec = round(perf_counter() - processStartRelativeTimeSec, 3)
 
-        formattedMsg = MethodsForStrings.alignString(' [' + messageTemplate + ' finished (%s sec)] ' % durationSec, 120, 'center', '=')
+        return MethodsForStrings.alignString(' [' + messageTemplate + ' finished (%s sec)] ' % durationSec, 120, 'center', '=') + "\n"
 
-        Log.info(formattedMsg + "\n")
+    @classmethod
+    def logProcessFinishedMessage(cls, messageTemplate: str, processStartRelativeTimeSec: float) -> None:
+        from ..Helpers.Log import Log
+
+        Log.info(cls.getProcessFinishedMessage(messageTemplate, processStartRelativeTimeSec))

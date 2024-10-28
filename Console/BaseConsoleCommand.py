@@ -66,24 +66,39 @@ class BaseConsoleCommand:
         return cls.getFormatByCode(cls.FORMAT_CODES.DEFAULT)
 
     @classmethod
-    def info(cls, data) -> None:
-        print(str(data))
+    def info(cls, data, writeToLog: bool = False) -> None:
+        msg = str(data)
+        print(msg)
+        if writeToLog:
+            Log.info(msg)
 
     @classmethod
-    def infoGreen(cls, data) -> None:
-        print(f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_GREEN)}{str(data)}{cls.getDefaultFormat()}")
+    def infoGreen(cls, data, writeToLog: bool = False) -> None:
+        msg = f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_GREEN)}{str(data)}{cls.getDefaultFormat()}"
+        print(msg)
+        if writeToLog:
+            Log.info(msg)
 
     @classmethod
-    def infoBlue(cls, data) -> None:
-        print(f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_BLUE)}{str(data)}{cls.getDefaultFormat()}")
+    def infoBlue(cls, data, writeToLog: bool = False) -> None:
+        msg = f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_BLUE)}{str(data)}{cls.getDefaultFormat()}"
+        print(msg)
+        if writeToLog:
+            Log.info(msg)
 
     @classmethod
-    def warning(cls, data) -> None:
-        print(f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_YELLOW)}{Lang.msg('CONSOLE.WARNING').upper() + ': '}{cls.getDefaultFormat()}" + str(data))
+    def warning(cls, data, writeToLog: bool = False) -> None:
+        msg = f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_YELLOW)}{Lang.msg('CONSOLE.WARNING').upper() + ': '}{cls.getDefaultFormat()}" + str(data)
+        print(msg)
+        if writeToLog:
+            Log.info(msg)
 
     @classmethod
-    def error(cls, data) -> None:
-        print(f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_RED)}{Lang.msg('CONSOLE.ERROR').upper() + ': '}{cls.getDefaultFormat()}" + str(data))
+    def error(cls, data, writeToLog: bool = False) -> None:
+        msg = f"{cls.getFormatByCode(cls.FORMAT_CODES.FG_BRIGHT_RED)}{Lang.msg('CONSOLE.ERROR').upper() + ': '}{cls.getDefaultFormat()}" + str(data)
+        print(msg)
+        if writeToLog:
+            Log.info(msg)
 
     # ==================================================
     # Prompts.

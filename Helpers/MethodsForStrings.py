@@ -141,6 +141,17 @@ class MethodsForStrings:
                 return s
 
     @classmethod
+    def floatNumberToFixedDecimalsStr(cls, number: int | float, numDecimals: int):
+        from math import modf
+
+        fractionalPart, integerPart = modf(number)
+
+        integerPartStr = str(int(integerPart))
+        fractionalPartStr = str(round(abs(fractionalPart), numDecimals))[2:]
+
+        return integerPartStr + '.' + MethodsForStrings.alignString(fractionalPartStr, numDecimals, 'left', '0')
+
+    @classmethod
     def simpleListToStringTable(cls, arr: list):
         itemsAsObjects = []
         for i in range(0, len(arr)):

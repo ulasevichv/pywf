@@ -8,7 +8,7 @@ class Log:
     LEVEL_ERROR = 2
 
     @classmethod
-    def logEnv(cls, env):
+    def logEnv(cls, env) -> None:
         feed = ['']
         for k, v in env.items():
             feed.append(f'{k}={v}')
@@ -16,7 +16,7 @@ class Log:
         cls.info(env['wsgi.input'])
 
     @classmethod
-    def levelToStr(cls, level):
+    def levelToStr(cls, level) -> str:
         match level:
             case cls.LEVEL_INFO:
                 return 'info'
@@ -29,7 +29,7 @@ class Log:
                 raise Exception(Lang.msg('ARGUMENT.INVALID_ENUM_VALUE', level))
 
     @classmethod
-    def log(cls, data, level=LEVEL_INFO):
+    def log(cls, data, level: int = LEVEL_INFO) -> None:
         if not isinstance(data, str):
             data = str(data)
 
@@ -41,13 +41,13 @@ class Log:
         MethodsForFileSystem.writeToFile(logFileRelativePath, data)
 
     @classmethod
-    def info(cls, value):
-        cls.log(value, cls.LEVEL_INFO)
+    def info(cls, data) -> None:
+        cls.log(data, cls.LEVEL_INFO)
 
     @classmethod
-    def warning(cls, value):
-        cls.log(value, cls.LEVEL_WARNING)
+    def warning(cls, data) -> None:
+        cls.log(data, cls.LEVEL_WARNING)
 
     @classmethod
-    def error(cls, value):
-        cls.log(value, cls.LEVEL_ERROR)
+    def error(cls, data) -> None:
+        cls.log(data, cls.LEVEL_ERROR)
