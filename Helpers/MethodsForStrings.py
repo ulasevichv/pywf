@@ -149,7 +149,7 @@ class MethodsForStrings:
         integerPartStr = str(int(integerPart))
         fractionalPartStr = str(round(abs(fractionalPart), numDecimals))[2:]
 
-        return integerPartStr + '.' + MethodsForStrings.alignString(fractionalPartStr, numDecimals, 'left', '0')
+        return integerPartStr + '.' + cls.alignString(fractionalPartStr, numDecimals, 'left', '0')
 
     @classmethod
     def simpleListToStringTable(cls, arr: list):
@@ -159,8 +159,7 @@ class MethodsForStrings:
                 'index': i,
                 'value': arr[i]
             }))
-        return ('Num items: ' + str(len(arr))
-                + "\n" + MethodsForStrings.objectsListToStringTable(itemsAsObjects, [], ['#', 'Value']))
+        return cls.objectsListToStringTable(itemsAsObjects, [], ['#', 'Value'])
 
     """
      * Get string representation of an array of objects (in form of a table).
