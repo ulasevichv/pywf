@@ -5,6 +5,7 @@ from urllib import parse as urllib_parse
 
 from ..Exceptions.Http.NotFoundException import NotFoundException
 from ..Application.BaseApplication import BaseApplication
+from ..Helpers.Log import Log
 from ..Helpers.Dict import Dict
 from ..Http.Request import Request
 
@@ -31,6 +32,8 @@ class BaseWebApplication(BaseApplication):
 
         self.readAllRoutes('Routes')
 
+        Log.info('ZZZ')
+
         matchingRoute = None
         for routeGroup in self.routeGroups:
             for route in routeGroup['routes']:
@@ -53,7 +56,6 @@ class BaseWebApplication(BaseApplication):
             from ..Controllers.BaseWebController import BaseWebController
             return BaseWebController.outputException(NotFoundException())
 
-        from ..Helpers.Log import Log
         Log.info(matchingRoute)
 
         from ..Controllers.BaseController import BaseController
