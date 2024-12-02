@@ -24,6 +24,8 @@ class BaseWebApplication(BaseApplication):
     def processRequest(self):
         type(self).request = Request()
 
+        Log.info('BBB')
+
         requestMethod = self.request.method
         queryString = self.request.URI
         if queryString[0] == '/':
@@ -32,7 +34,7 @@ class BaseWebApplication(BaseApplication):
 
         self.readAllRoutes('Routes')
 
-        Log.info('ZZZ')
+        Log.info('CCC')
 
         matchingRoute = None
         for routeGroup in self.routeGroups:
