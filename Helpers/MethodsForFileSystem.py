@@ -31,6 +31,17 @@ class MethodsForFileSystem:
         f.close()
 
     @classmethod
+    def writeToFileAbs(cls, fullFilePath: str, data, mode: str = 'a'):
+        if not isinstance(data, str):
+            data = str(data)
+
+        Path(os_sep.join(str(fullFilePath).split(os_sep)[:-1])).mkdir(parents=True, exist_ok=True)
+
+        f = open(fullFilePath, mode)
+        f.write(data + "\n")
+        f.close()
+
+    @classmethod
     def readFile(cls, fileRelativePath: str):
         fullFilePath = cls.relativePathToFull(fileRelativePath)
 
