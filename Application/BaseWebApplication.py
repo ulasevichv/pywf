@@ -22,12 +22,6 @@ class BaseWebApplication(BaseApplication):
         type(self).rootPath = str(Path(self.osEnv.DOCUMENT_ROOT + '/..').resolve()).replace("\\", '/')
 
     def processRequest(self):
-
-        Log.info('BaseWebApplication.processRequest')
-
-        from ..Helpers.MethodsForFileSystem import MethodsForFileSystem
-        MethodsForFileSystem.writeToFileAbs('/var/www/test1/_test.log', 'BaseWebApplication.processRequest')
-
         type(self).request = Request()
 
         requestMethod = self.request.method
@@ -37,8 +31,6 @@ class BaseWebApplication(BaseApplication):
         parsedQueryString = urllib_parse.urlparse(queryString)
 
         self.readAllRoutes('Routes')
-
-        Log.info('CCC')
 
         matchingRoute = None
         for routeGroup in self.routeGroups:

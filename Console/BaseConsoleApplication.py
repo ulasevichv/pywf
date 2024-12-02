@@ -14,11 +14,6 @@ class BaseConsoleApplication(BaseApplication):
         type(self).rootPath = str(Path('').resolve()).replace("\\", '/')
 
     def processRequest(self):
-        Log.info('BaseConsoleApplication.processRequest')
-
-        from ..Helpers.MethodsForFileSystem import MethodsForFileSystem
-        MethodsForFileSystem.writeToFileAbs('/var/www/test1/_test.log', 'BaseConsoleApplication.processRequest')
-
         self.readAllRoutes('Console/Routes')
 
         allArguments = BaseConsoleCommand.getAllArguments()
