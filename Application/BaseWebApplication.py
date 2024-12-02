@@ -22,7 +22,6 @@ class BaseWebApplication(BaseApplication):
         type(self).rootPath = str(Path(self.osEnv.DOCUMENT_ROOT + '/..').resolve()).replace("\\", '/')
 
     def processRequest(self):
-        dbg;
 
         Log.info('BaseWebApplication.processRequest')
 
