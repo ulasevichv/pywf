@@ -14,6 +14,8 @@ class BaseConsoleApplication(BaseApplication):
         type(self).rootPath = str(Path('').resolve()).replace("\\", '/')
 
     def processRequest(self):
+        Log.info('BaseConsoleApplication.processRequest')
+
         self.readAllRoutes('Console/Routes')
 
         allArguments = BaseConsoleCommand.getAllArguments()

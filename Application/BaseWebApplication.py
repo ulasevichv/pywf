@@ -24,7 +24,7 @@ class BaseWebApplication(BaseApplication):
     def processRequest(self):
         type(self).request = Request()
 
-        Log.info('BBB')
+        Log.info('BaseWebApplication.processRequest')
 
         requestMethod = self.request.method
         queryString = self.request.URI
