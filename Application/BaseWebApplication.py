@@ -22,10 +22,12 @@ class BaseWebApplication(BaseApplication):
         type(self).rootPath = str(Path(self.osEnv.DOCUMENT_ROOT + '/..').resolve()).replace("\\", '/')
 
     def processRequest(self):
+        dbg;
+
         Log.info('BaseWebApplication.processRequest')
 
         from ..Helpers.MethodsForFileSystem import MethodsForFileSystem
-        MethodsForFileSystem.writeToFileAbs('/var/www/_test.log', 'BaseWebApplication.processRequest')
+        MethodsForFileSystem.writeToFileAbs('/var/www/test1/_test.log', 'BaseWebApplication.processRequest')
 
         type(self).request = Request()
 

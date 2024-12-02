@@ -17,7 +17,7 @@ class BaseConsoleApplication(BaseApplication):
         Log.info('BaseConsoleApplication.processRequest')
 
         from ..Helpers.MethodsForFileSystem import MethodsForFileSystem
-        MethodsForFileSystem.writeToFileAbs('/var/www/_test.log', 'BaseConsoleApplication.processRequest')
+        MethodsForFileSystem.writeToFileAbs('/var/www/test1/_test.log', 'BaseConsoleApplication.processRequest')
 
         self.readAllRoutes('Console/Routes')
 

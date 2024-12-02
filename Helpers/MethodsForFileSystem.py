@@ -8,30 +8,22 @@ from .MethodsForStrings import MethodsForStrings
 
 class MethodsForFileSystem:
     @classmethod
-    def relativePathToFull(cls, fileRelativePath: str):
+    def relativePathToFull(cls, fileRelativePath: str) -> str:
         # App import.
         from App.Kernel import Kernel
 
         rootAppPath = Path(Kernel.getApp().rootPath)
         fullFilePath = rootAppPath.joinpath(fileRelativePath)
 
-        return fullFilePath
+        return str(fullFilePath)
 
     @classmethod
-    def writeToFile(cls, fileRelativePath: str, data, mode: str = 'a'):
-        if not isinstance(data, str):
-            data = str(data)
-
-        fullFilePath = cls.relativePathToFull(fileRelativePath)
-
-        Path(os_sep.join(str(fullFilePath).split(os_sep)[:-1])).mkdir(parents=True, exist_ok=True)
-
-        f = open(fullFilePath, mode)
-        f.write(data + "\n")
-        f.close()
+    def writeToFile(cls, relativeFilePath: str, data, mode: str = 'a') -> None:
+        fullFilePath = cls.relativePathToFull(relativeFilePath)
+        cls.writeToFileAbs(fullFilePath, data, mode)
 
     @classmethod
-    def writeToFileAbs(cls, fullFilePath: str, data, mode: str = 'a'):
+    def writeToFileAbs(cls, fullFilePath: str, data, mode: str = 'a') -> None:
         if not isinstance(data, str):
             data = str(data)
 
@@ -42,9 +34,12 @@ class MethodsForFileSystem:
         f.close()
 
     @classmethod
-    def readFile(cls, fileRelativePath: str):
-        fullFilePath = cls.relativePathToFull(fileRelativePath)
+    def readFile(cls, relativeFilePath: str) -> list[str]:
+        fullFilePath = cls.relativePathToFull(relativeFilePath)
+        return cls.readFileAbs(fullFilePath)
 
+    @classmethod
+    def readFileAbs(cls, fullFilePath: str) -> list[str]:
         f = open(fullFilePath, 'r')
         lines = f.readlines()
         f.close()
@@ -55,7 +50,7 @@ class MethodsForFileSystem:
         return lines
 
     @classmethod
-    def readEnvFile(cls, filePath, conversionRules: Dict):
+    def readEnvFile(cls, filePath: str, conversionRules: Dict) -> Dict:
         f = open(filePath, 'r')
         content = f.read()
         f.close()
@@ -102,7 +97,7 @@ class MethodsForFileSystem:
         return variables
 
     @classmethod
-    def convertValue(cls, s: str, targetTypeName: str):
+    def convertValue(cls, s: str, targetTypeName: str) -> str | bool:
         match targetTypeName:
             case 'bool':
                 return MethodsForStrings.strToBool(s)
