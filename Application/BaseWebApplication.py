@@ -42,19 +42,8 @@ class BaseWebApplication(BaseApplication):
                 break
 
         if matchingRoute is None:
-            # isApiRoute = (len(queryString) >= 4 and queryString[0:4] == 'api/')
-            #
-            # if isApiRoute:
-            #     from ..Controllers.BaseAPIController import BaseAPIController
-            #     return BaseAPIController.outputException(NotFoundException('Invalid route'))
-            # else:
-            #     from ..Controllers.BaseWebController import BaseWebController
-            #     return BaseWebController.outputException(NotFoundException())
-
             from ..Controllers.BaseWebController import BaseWebController
             return BaseWebController.outputException(NotFoundException())
-
-        Log.info(matchingRoute)
 
         from ..Controllers.BaseController import BaseController
 
